@@ -23,4 +23,16 @@ public class ActorServiceImpl implements ActorService {
                 .toList();
         return new ResponseDto<List<ActorDto>>(actorsDtoList, 200, "Success get all list of all actors");
     }
+
+    @Override
+    public ResponseDto<ActorDto> addActor(Actor actor) {
+        Actor actorWithId = actorRepository.save(actor);
+
+        ActorDto actorDto = new ActorDto(actorWithId.getId(),
+                actorWithId.getFirstName(),
+                actorWithId.getLastName(),
+                actorWithId.getLastUpdate());
+
+        return new ResponseDto<>(actorDto, 201, "Success add actor");
+    }
 }
