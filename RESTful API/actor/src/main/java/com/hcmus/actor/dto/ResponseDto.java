@@ -1,0 +1,16 @@
+package com.hcmus.actor.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class ResponseDto<T> {
+    private T data;
+    private Integer statusCode;
+    private String message;
+}
