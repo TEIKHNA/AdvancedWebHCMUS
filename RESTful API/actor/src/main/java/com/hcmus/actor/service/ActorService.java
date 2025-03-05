@@ -9,5 +9,9 @@ import java.util.List;
 public interface ActorService {
 
     ResponseDto<List<ActorDto>> getActorsList();
+
+    ResponseDto<ActorDto> getActorDetail(Integer actorId);
+
     ResponseDto<ActorDto> addActor(Actor actor);
+
 }

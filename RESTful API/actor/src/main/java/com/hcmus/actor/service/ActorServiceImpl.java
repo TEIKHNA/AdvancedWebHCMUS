@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +25,18 @@ public class ActorServiceImpl implements ActorService {
         return new ResponseDto<List<ActorDto>>(actorsDtoList, 200, "Success get all list of all actors");
     }
 
+    @Override
+    public ResponseDto<ActorDto> getActorDetail(Integer actorId) 
+    {
+        Optional<Actor> actorOptional = actorRepository.findById(actorId);
+        if (actorOptional.isPresent()) {
+            Actor actor = actorOptional.get();
+            ActorDto actorDto = new ActorDto(actor.getId(), actor.getFirstName(), actor.getLastName(), actor.getLastUpdate());
+            return new ResponseDto<ActorDto>(actorDto, 200, "Success get actor detail");
+        } else {
+            return new ResponseDto<ActorDto>(null, 404, "Actor not found");
+        }
+    }
     @Override
     public ResponseDto<ActorDto> addActor(Actor actor) {
         Actor actorWithId = actorRepository.save(actor);
