@@ -2,7 +2,7 @@ package com.hcmus.actor.controller;
 
 import com.hcmus.actor.domain.Actor;
 import com.hcmus.actor.dto.ActorDto;
-import com.hcmus.actor.dto.RequestDto;
+import com.hcmus.actor.dto.ActorRequestDto;
 import com.hcmus.actor.dto.ResponseDto;
 import com.hcmus.actor.service.ActorService;
 import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ public class ActorController {
 
     @PostMapping("/add")
     public ResponseEntity<ResponseDto<ActorDto>> addActor(
-            @RequestBody RequestDto requestDto
+            @RequestBody ActorRequestDto requestDto
     ) {
         Actor actor = new Actor(null, requestDto.getFirstName(), requestDto.getLastName(), null);
         ResponseDto<ActorDto> response = actorService.addActor(actor);

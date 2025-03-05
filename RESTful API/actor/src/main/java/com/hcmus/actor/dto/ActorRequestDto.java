@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class RequestDto {
+public class ActorRequestDto {
     @NotEmpty(message = "First name must not be empty")
     private String firstName;
 
