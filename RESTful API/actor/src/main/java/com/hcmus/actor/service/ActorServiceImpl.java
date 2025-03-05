@@ -26,7 +26,8 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public ResponseDto<ActorDto> getActorDetail(Integer actorId) {
+    public ResponseDto<ActorDto> getActorDetail(Integer actorId) 
+    {
         Optional<Actor> actorOptional = actorRepository.findById(actorId);
         if (actorOptional.isPresent()) {
             Actor actor = actorOptional.get();
@@ -35,5 +36,16 @@ public class ActorServiceImpl implements ActorService {
         } else {
             return new ResponseDto<ActorDto>(null, 404, "Actor not found");
         }
+    }
+    @Override
+    public ResponseDto<ActorDto> addActor(Actor actor) {
+        Actor actorWithId = actorRepository.save(actor);
+
+        ActorDto actorDto = new ActorDto(actorWithId.getId(),
+                actorWithId.getFirstName(),
+                actorWithId.getLastName(),
+                actorWithId.getLastUpdate());
+
+        return new ResponseDto<>(actorDto, 201, "Success add actor");
     }
 }
