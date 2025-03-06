@@ -1,5 +1,6 @@
 package com.hcmus.actor.dto;
 
+import com.hcmus.actor.domain.Actor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,9 +9,6 @@ import lombok.Value;
 import java.io.Serializable;
 import java.time.Instant;
 
-/**
- * DTO for {@link com.hcmus.actor.domain.Actor}
- */
 @AllArgsConstructor
 @Getter
 @Setter
@@ -20,4 +18,11 @@ public class ActorDto implements Serializable {
     String firstName;
     String lastName;
     Instant lastUpdate;
+
+    public ActorDto(Actor actor) {
+        this.id = actor.getId();
+        this.firstName = actor.getFirstName();
+        this.lastName = actor.getLastName();
+        this.lastUpdate = actor.getLastUpdate();
+    }
 }

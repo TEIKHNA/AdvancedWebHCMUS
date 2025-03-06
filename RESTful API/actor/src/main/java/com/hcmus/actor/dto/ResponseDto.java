@@ -11,6 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResponseDto<T> {
     private T data;
-    private Integer statusCode;
     private String message;
 }
