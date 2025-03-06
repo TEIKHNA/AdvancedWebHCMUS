@@ -14,6 +14,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "actor")
 public class Actor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "actor_id_gen")
     @SequenceGenerator(name = "actor_id_gen", sequenceName = "actor_actor_id_seq", allocationSize = 1)
@@ -29,5 +30,4 @@ public class Actor {
     @ColumnDefault("now()")
     @Column(name = "last_update", nullable = false)
     private Instant lastUpdate;
-
 }
