@@ -1,5 +1,6 @@
 package com.hcmus.sakila.dto.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.util.List;
@@ -10,5 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ErrorResponseDto {
+
+    @Schema(description = "Error messages", example = "[ \"There are some errors ...\" ]")
     private List<String> messages;
 }

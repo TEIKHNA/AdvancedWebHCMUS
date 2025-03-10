@@ -1,7 +1,9 @@
 package com.hcmus.sakila.service;
 
 import com.hcmus.sakila.domain.Actor;
-import com.hcmus.sakila.dto.ActorDto;
+import com.hcmus.sakila.dto.response.ActorDto;
+import com.hcmus.sakila.dto.request.ActorAddDto;
+import com.hcmus.sakila.dto.request.ActorUpdateDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
 import com.hcmus.sakila.repository.ActorRepository;
 import lombok.AllArgsConstructor;
@@ -27,26 +29,6 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public ResponseDto<?> deleteAnActor(Integer id) {
-        actorRepository.deleteById(id);
-        return new ResponseDto<>(null, "Delete successfully!");
-    }
-
-    @Override
-    public ResponseDto<ActorDto> updateAnActor(Integer id, ActorDto actorDto) {
-        Actor actor = actorRepository.findById(id).orElse(null);
-        if (actor == null) {
-            return new ResponseDto<>(null, "Not found actor with id: " + id + "!");
-        }
-        actor.setFirstName(actorDto.getFirstName());
-        actor.setLastName(actorDto.getLastName());
-        actor.setLastUpdate(Calendar.getInstance().getTime().toInstant());
-
-        Actor savedActor = actorRepository.save(actor);
-        return new ResponseDto<>(new ActorDto(savedActor), "Update successfully!");
-    }
-
-    @Override
     public ResponseDto<ActorDto> getActorDetail(Integer actorId) {
         Optional<Actor> actorOptional = actorRepository.findById(actorId);
         if (actorOptional.isPresent()) {
@@ -59,16 +41,33 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public ResponseDto<ActorDto> addActor(ActorDto actorDto) {
+    public ResponseDto<ActorDto> addAnActor(ActorAddDto actorAddDto) {
         Actor actor = new Actor(
                 null,
-                actorDto.getFirstName(),
-                actorDto.getLastName(),
+                actorAddDto.getFirstName(),
+                actorAddDto.getLastName(),
                 Calendar.getInstance().getTime().toInstant());
         Actor actorWithId = actorRepository.save(actor);
-
         ActorDto newActorDto = new ActorDto(actorWithId);
+        return new ResponseDto<ActorDto>(newActorDto, "Success add an actor!");
+    }
 
-        return new ResponseDto<ActorDto>(newActorDto, "Success add actor!");
+    @Override
+    public ResponseDto<ActorDto> updateAnActor(Integer id, ActorUpdateDto actorUpdateDto) {
+        Actor actor = actorRepository.findById(id).orElse(null);
+        if (actor == null) {
+            return new ResponseDto<>(null, "Not found actor with id: " + id + "!");
+        }
+        if (actorUpdateDto.getFirstName() != null) actor.setFirstName(actorUpdateDto.getFirstName());
+        if (actorUpdateDto.getLastName() != null) actor.setLastName(actorUpdateDto.getLastName());
+        actor.setLastUpdate(Calendar.getInstance().getTime().toInstant());
+        Actor savedActor = actorRepository.save(actor);
+        return new ResponseDto<>(new ActorDto(savedActor), "Update an actor successfully!");
+    }
+
+    @Override
+    public ResponseDto<?> deleteAnActor(Integer id) {
+        actorRepository.deleteById(id);
+        return new ResponseDto<>(null, "Delete successfully!");
     }
 }
