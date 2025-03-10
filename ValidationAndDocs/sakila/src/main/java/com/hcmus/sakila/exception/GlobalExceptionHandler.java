@@ -1,6 +1,6 @@
-package com.hcmus.actor.exception;
+package com.hcmus.sakila.exception;
 
-import com.hcmus.actor.dto.ResponseDto;
+import com.hcmus.sakila.dto.ResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

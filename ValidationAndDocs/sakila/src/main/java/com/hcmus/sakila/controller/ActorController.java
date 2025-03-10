@@ -1,8 +1,8 @@
-package com.hcmus.actor.controller;
+package com.hcmus.sakila.controller;
 
-import com.hcmus.actor.dto.ActorDto;
-import com.hcmus.actor.dto.ResponseDto;
-import com.hcmus.actor.service.ActorService;
+import com.hcmus.sakila.dto.ActorDto;
+import com.hcmus.sakila.dto.ResponseDto;
+import com.hcmus.sakila.service.ActorService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

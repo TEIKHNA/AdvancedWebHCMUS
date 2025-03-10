@@ -1,4 +1,4 @@
-package com.hcmus.actor.dto;
+package com.hcmus.sakila.dto;
 
 import lombok.*;
 

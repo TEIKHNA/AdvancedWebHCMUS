@@ -1,7 +1,7 @@
-package com.hcmus.actor.service;
+package com.hcmus.sakila.service;
 
-import com.hcmus.actor.dto.ActorDto;
-import com.hcmus.actor.dto.ResponseDto;
+import com.hcmus.sakila.dto.ActorDto;
+import com.hcmus.sakila.dto.ResponseDto;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.hcmus.actor.domain;
+package com.hcmus.sakila.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,6 +1,6 @@
-package com.hcmus.actor.repository;
+package com.hcmus.sakila.repository;
 
-import com.hcmus.actor.domain.Actor;
+import com.hcmus.sakila.domain.Actor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

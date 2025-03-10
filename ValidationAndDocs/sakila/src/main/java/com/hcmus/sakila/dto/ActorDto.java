@@ -1,6 +1,6 @@
-package com.hcmus.actor.dto;
+package com.hcmus.sakila.dto;
 
-import com.hcmus.actor.domain.Actor;
+import com.hcmus.sakila.domain.Actor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
