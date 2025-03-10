@@ -2,7 +2,7 @@ package com.hcmus.sakila.service;
 
 import com.hcmus.sakila.domain.Actor;
 import com.hcmus.sakila.dto.ActorDto;
-import com.hcmus.sakila.dto.ResponseDto;
+import com.hcmus.sakila.dto.response.ResponseDto;
 import com.hcmus.sakila.repository.ActorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

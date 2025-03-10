@@ -1,8 +1,9 @@
 package com.hcmus.sakila.controller;
 
 import com.hcmus.sakila.dto.ActorDto;
-import com.hcmus.sakila.dto.ResponseDto;
+import com.hcmus.sakila.dto.response.ResponseDto;
 import com.hcmus.sakila.service.ActorService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,7 @@ public class ActorController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<ResponseDto<ActorDto>> addActor(@RequestBody ActorDto actorDto) {
+    public ResponseEntity<ResponseDto<ActorDto>> addActor(@Valid @RequestBody ActorDto actorDto) {
         ResponseDto<ActorDto> response = actorService.addActor(actorDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

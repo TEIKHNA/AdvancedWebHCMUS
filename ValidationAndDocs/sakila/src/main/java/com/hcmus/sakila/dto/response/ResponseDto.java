@@ -1,4 +1,4 @@
-package com.hcmus.sakila.dto;
+package com.hcmus.sakila.dto.response;
 
 import lombok.*;
 
