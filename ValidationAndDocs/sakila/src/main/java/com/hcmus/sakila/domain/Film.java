@@ -12,7 +12,10 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Year;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,7 +40,7 @@ public class Film {
     @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
 
-    @Column(name = "release_year")
+    @Column(name = "release_year", columnDefinition = "year")
     private Integer releaseYear;
 
     @NotNull
@@ -54,7 +57,7 @@ public class Film {
     @NotNull
     @ColumnDefault("3")
     @Column(name = "rental_duration", nullable = false)
-    private Integer rentalDuration;
+    private Short rentalDuration;
 
     @NotNull
     @ColumnDefault("4.99")
@@ -62,7 +65,7 @@ public class Film {
     private BigDecimal rentalRate;
 
     @Column(name = "length")
-    private Integer length;
+    private Short length;
 
     @NotNull
     @ColumnDefault("19.99")
@@ -75,26 +78,13 @@ public class Film {
     private RatingType rating;
 
     @Column(name = "special_features", columnDefinition = "SET('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
-    private String specialFeatures;
+    private List<String> specialFeatures;
 
     @NotNull
     @ColumnDefault("now()")
     @Column(name = "last_update", nullable = false)
     private LocalDateTime lastUpdate;
 
-    public Set<SpecialFeatureType> getSpecialFeaturesSet() {
-        if (specialFeatures == null || specialFeatures.isEmpty()) {
-            return Set.of();
-        }
-        return Stream.of(specialFeatures.split(","))
-                .map(String::trim)
-                .map(SpecialFeatureType::fromString)
-                .collect(Collectors.toSet());
-    }
 
-    public void setSpecialFeaturesSet(Set<SpecialFeatureType> features) {
-        this.specialFeatures = features.stream()
-                .map(SpecialFeatureType::toString)
-                .collect(Collectors.joining(","));
-    }
 }
+
