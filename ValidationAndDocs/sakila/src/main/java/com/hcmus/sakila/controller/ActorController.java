@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping("/api/actor")
 public class ActorController {
 
-    private final ActorService actorService;
+        private final ActorService actorService;
 
     @Operation(tags = "Actor Service", summary = "Retrieve actors list",
             description = "Retrieve a list of all available actors.",

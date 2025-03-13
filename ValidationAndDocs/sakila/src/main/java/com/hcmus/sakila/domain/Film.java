@@ -1,6 +1,9 @@
 package com.hcmus.sakila.domain;
 
-import com.hcmus.sakila.domain.type.RatingType;
+import com.hcmus.sakila.domain.converter.RatingConverter;
+import com.hcmus.sakila.domain.converter.SpecialFeatureConverter;
+import com.hcmus.sakila.domain.type.Rating;
+import com.hcmus.sakila.domain.type.SpecialFeature;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,19 +13,17 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
-
 
 @Getter
 @Setter
-@Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "film")
-@Builder
 public class Film {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "film_id_gen")
     @SequenceGenerator(name = "film_id_gen", sequenceName = "film_film_id_seq", allocationSize = 1)
@@ -37,7 +38,7 @@ public class Film {
     @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
 
-    @Column(name = "release_year", columnDefinition = "year")
+    @Column(name = "release_year")
     private Integer releaseYear;
 
     @NotNull
@@ -69,34 +70,17 @@ public class Film {
     @Column(name = "replacement_cost", nullable = false, precision = 5, scale = 2)
     private BigDecimal replacementCost;
 
-
-    @Column(name = "rating", columnDefinition = "mpaa_rating")
-    private RatingType rating;
-
-    @Column(name = "special_features", columnDefinition = "SET('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
-    private List<String> specialFeatures;
-
     @NotNull
     @ColumnDefault("now()")
     @Column(name = "last_update", nullable = false)
-    private LocalDateTime lastUpdate;
+    private Instant lastUpdate;
 
+    @Convert(converter = SpecialFeatureConverter.class)
+    @Column(name = "special_features", columnDefinition = "SET('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
+    private List<SpecialFeature> specialFeatures;
 
-    // public Set<SpecialFeatureType> getSpecialFeaturesSet() {
-    // if (specialFeatures == null || specialFeatures.isEmpty()) {
-    // return Set.of();
-    // }
-    // return Stream.of(specialFeatures.split(","))
-    // .map(String::trim)
-    // .map(SpecialFeatureType::fromString)
-    // .collect(Collectors.toSet());
-    // }
-    //
-    // public void setSpecialFeaturesSet(Set<SpecialFeatureType> features) {
-    // this.specialFeatures = features.stream()
-    // .map(SpecialFeatureType::toString)
-    // .collect(Collectors.joining(","));
-    // }
-
+    @ColumnDefault("'G'")
+    @Convert(converter = RatingConverter.class)
+    @Column(name = "rating", columnDefinition = "mpaa_rating")
+    private Rating rating;
 }
-

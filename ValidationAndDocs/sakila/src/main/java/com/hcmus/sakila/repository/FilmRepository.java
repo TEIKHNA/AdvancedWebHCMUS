@@ -2,14 +2,16 @@ package com.hcmus.sakila.repository;
 
 import com.hcmus.sakila.domain.Film;
 import com.hcmus.sakila.domain.Language;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface FilmRepository extends JpaRepository<Film, Integer> {
 
     @Query(value = "SELECT * FROM film WHERE rating = CAST(:rating AS mpaa_rating)", nativeQuery = true)
@@ -18,7 +20,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
     List<Film> findAllByReleaseYear(Integer releaseYear, Pageable range);
 
     List<Film> findAllByLanguage(Optional<Language> language, Pageable range);
-    
+
     @Query("SELECT f.rating, COUNT(f) FROM Film f GROUP BY f.rating")
     List<Object[]> countFilmsByRating();
 
@@ -27,4 +29,6 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 
     @Query("SELECT f FROM Film f ORDER BY f.rentalRate DESC")
     List<Film> findMostExpensiveFilms(Pageable pageable);
+
+    List<Film> findByTitleContainingIgnoreCase(String keyword);
 }
