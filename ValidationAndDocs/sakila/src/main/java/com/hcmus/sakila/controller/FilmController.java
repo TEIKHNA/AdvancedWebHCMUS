@@ -1,16 +1,32 @@
 package com.hcmus.sakila.controller;
 
-import com.hcmus.sakila.repository.FilmRepository;
+import com.hcmus.sakila.domain.Film;
+import com.hcmus.sakila.dto.request.ActorAddDto;
+import com.hcmus.sakila.dto.request.ActorUpdateDto;
+import com.hcmus.sakila.dto.response.ActorDto;
+import com.hcmus.sakila.dto.response.ErrorResponseDto;
+import com.hcmus.sakila.dto.response.ResponseDto;
+import com.hcmus.sakila.service.ActorService;
+import com.hcmus.sakila.service.FilmService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/film")
 @AllArgsConstructor
+@RequestMapping("/api/film")
 public class FilmController {
+
+    private final FilmService filmService;
+
     // KIET
     /**
      * Đếm tổng số phim trong hệ thống
@@ -148,5 +164,4 @@ public class FilmController {
      * Endpoint: /films/{film_id}
      * Description: Kiểm tra xem film_id có tồn tại hay không mà không cần trả về nội dung.
      */
-    private final FilmRepository filmRepository;
 }
