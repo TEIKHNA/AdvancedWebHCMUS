@@ -2,6 +2,7 @@ package com.hcmus.sakila.controller;
 
 import com.hcmus.sakila.domain.type.RatingType;
 import com.hcmus.sakila.dto.response.FilmDto;
+import com.hcmus.sakila.dto.response.FilmStatisticsDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
 import com.hcmus.sakila.service.FilmService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -155,35 +157,51 @@ public class FilmController {
                     .body(new ResponseDto<>(null, "Invalid language id: " + language_id));
         }
     }
-
+    
     // VINH
-    /**
-     * Thống kê số lượng phim theo rating
-     * Method: GET
-     * Endpoint: /film/statistics
-     * Description: Trả về số lượng phim theo từng rating
-     * {
-     *   "G": 10,
-     *   "PG": 25,
-     *   "PG-13": 30,
-     *   "R": 15,
-     *   "NC-17": 5
-     * }
-     *
-     *
-     * Lấy danh sách phim có thời lượng dài nhất
-     * Method: GET
-     * Endpoint: /film/longest?size=10
-     * Query Params: limit (số phim muốn lấy)
-     * Description: Trả về danh sách các phim có thời lượng dài nhất.
-     *
-     *
-     * Lấy danh sách phim có giá thuê cao nhất
-     * Method: GET
-     * Endpoint: /films/most_expensive
-     * Query Params: limit
-     * Description: Lấy danh sách các phim có giá thuê (rental_rate) cao nhất.
-     */
+
+    @Operation(tags = "Film Service", summary = "Retrieve film statistics by rating",
+            description = "Retrieve the number of films by each rating.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
+                    @ApiResponse(responseCode = "204", description = "No Content", content = @Content(schema = @Schema())),})
+    @GetMapping("/statistics")
+    public ResponseEntity<ResponseDto<List<FilmStatisticsDto>>> getFilmStatisticsByRating() {
+        ResponseDto<List<FilmStatisticsDto>> response = filmService.getFilmStatisticsByRating();
+        if (response.getData() == null || response.getData().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @Operation(tags = "Film Service", summary = "Retrieve longest films",
+            description = "Retrieve the longest films with a specified limit.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
+                    @ApiResponse(responseCode = "204", description = "No Content", content = @Content(schema = @Schema())),})
+    @GetMapping("/longest")
+    public ResponseEntity<ResponseDto<List<FilmDto>>> getLongestFilms(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        ResponseDto<List<FilmDto>> response = filmService.getLongestFilms(limit);
+        if (response.getData() == null || response.getData().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @Operation(tags = "Film Service", summary = "Retrieve most expensive films",
+    description = "Retrieve the most expensive films with a specified limit.",
+    responses = {
+            @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
+            @ApiResponse(responseCode = "204", description = "No Content", content = @Content(schema = @Schema())),})
+    @GetMapping("/most_expensive")
+    public ResponseEntity<ResponseDto<List<FilmDto>>> getMostExpensiveFilms(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+    ResponseDto<List<FilmDto>> response = filmService.getMostExpensiveFilms(limit);
+    if (response.getData() == null || response.getData().isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+    }
+    return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    
 
     // API du tru, thay the: Chi ap dung cho truong hop qua kho, truong hop co ban khong duoc dung
     /**
