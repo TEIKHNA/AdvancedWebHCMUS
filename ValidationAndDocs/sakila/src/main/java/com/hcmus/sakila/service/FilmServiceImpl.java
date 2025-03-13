@@ -4,24 +4,32 @@ import com.hcmus.sakila.domain.Film;
 import com.hcmus.sakila.domain.Language;
 import com.hcmus.sakila.domain.type.RatingType;
 import com.hcmus.sakila.dto.response.FilmDto;
+import com.hcmus.sakila.dto.response.FilmStatisticsDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
 import com.hcmus.sakila.repository.FilmRepository;
 import com.hcmus.sakila.repository.LanguageRepository;
 import com.hcmus.sakila.dto.request.FilmCreateDto;
 import com.hcmus.sakila.dto.request.FilmUpdateDto;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class FilmServiceImpl implements FilmService {
 
-    private final FilmRepository filmRepository;
+    @Autowired
+    private FilmRepository filmRepository;
+
     private final LanguageRepository languageRepository;
 
     @Override
@@ -142,5 +150,28 @@ public class FilmServiceImpl implements FilmService {
                 .lastUpdate(LocalDateTime.now())
                 .build();
         filmRepository.save(newFilm);
+    }
+
+    @Override
+    public ResponseDto<List<FilmStatisticsDto>> getFilmStatisticsByRating() {
+        List<Object[]> results = filmRepository.countFilmsByRating();
+        List<FilmStatisticsDto> statistics = results.stream()
+                .map(result -> new FilmStatisticsDto(result[0].toString(), (Long) result[1]))
+                .collect(Collectors.toList());
+        return new ResponseDto<>(statistics, "Success get film statistics by rating!");
+    }
+
+    @Override
+    public ResponseDto<List<FilmDto>> getLongestFilms(Integer limit) {
+        List<Film> films = filmRepository.findLongestFilms(PageRequest.of(0, limit));
+        List<FilmDto> filmDtos = films.stream().map(FilmDto::new).collect(Collectors.toList());
+        return new ResponseDto<>(filmDtos, "Success get longest films! (at most " + limit + ")");
+    }
+
+    @Override
+    public ResponseDto<List<FilmDto>> getMostExpensiveFilms(Integer limit) {
+        List<Film> films = filmRepository.findMostExpensiveFilms(PageRequest.of(0, limit));
+        List<FilmDto> filmDtos = films.stream().map(FilmDto::new).collect(Collectors.toList());
+        return new ResponseDto<>(filmDtos, "Success get most expensive films! (at most " + limit + ")");
     }
 }

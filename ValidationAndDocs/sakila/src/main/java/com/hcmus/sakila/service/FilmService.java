@@ -7,9 +7,11 @@ import com.hcmus.sakila.dto.request.ActorUpdateDto;
 import com.hcmus.sakila.dto.request.FilmCreateDto;
 import com.hcmus.sakila.dto.request.FilmUpdateDto;
 import com.hcmus.sakila.dto.response.ActorDto;
+import com.hcmus.sakila.dto.response.FilmStatisticsDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FilmService {
     ResponseDto<List<FilmDto>> getFilmsByRating(RatingType rating,
@@ -29,4 +31,8 @@ public interface FilmService {
     void deleteFilm(Integer film_id);
 
     void createFilm(FilmCreateDto film);
+  
+    ResponseDto<List<FilmStatisticsDto>> getFilmStatisticsByRating();
+    ResponseDto<List<FilmDto>> getLongestFilms(Integer limit);      
+    ResponseDto<List<FilmDto>> getMostExpensiveFilms(Integer limit);                                           
 }

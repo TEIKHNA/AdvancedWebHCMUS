@@ -18,4 +18,13 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
     List<Film> findAllByReleaseYear(Integer releaseYear, Pageable range);
 
     List<Film> findAllByLanguage(Optional<Language> language, Pageable range);
+    
+    @Query("SELECT f.rating, COUNT(f) FROM Film f GROUP BY f.rating")
+    List<Object[]> countFilmsByRating();
+
+    @Query("SELECT f FROM Film f ORDER BY f.length DESC")
+    List<Film> findLongestFilms(Pageable pageable);
+
+    @Query("SELECT f FROM Film f ORDER BY f.rentalRate DESC")
+    List<Film> findMostExpensiveFilms(Pageable pageable);
 }
