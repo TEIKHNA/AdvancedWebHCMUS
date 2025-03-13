@@ -1,0 +1,9 @@
+CREATE CAST (varchar as mpaa_rating) WITH INOUT AS IMPLICIT;
+
+
+CREATE FUNCTION varchar_to_text_array(varchar) RETURNS text[] AS $$
+BEGIN
+  RETURN string_to_array($1, ','); -- Giả sử các giá trị ngăn cách bởi dấu phẩy
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+CREATE CAST (varchar AS text[]) WITH FUNCTION varchar_to_text_array(varchar) AS IMPLICIT;
