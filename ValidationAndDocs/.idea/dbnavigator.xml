@@ -4,6 +4,14 @@
     <mappings />
     <preferences />
   </component>
+<<<<<<< HEAD
+=======
+  <component name="DBNavigator.Project.DataEditorManager">
+    <record-view-column-sorting-type value="BY_INDEX" />
+    <value-preview-text-wrapping value="false" />
+    <value-preview-pinned value="false" />
+  </component>
+>>>>>>> feat-CRUD-film
   <component name="DBNavigator.Project.DatabaseAssistantManager">
     <assistants>
       <assistant-state connection-id="6aaafa03-4ddf-4bc9-b263-fbd38fc20e67" default-profile-name="" selected-profile-name="" selected-model-name="" assistant-type="GENERIC" selected-action="SHOW_SQL" availability="UNAVAILABLE" acknowledgement="NONE">
@@ -14,6 +22,15 @@
       </assistant-state>
     </assistants>
   </component>
+<<<<<<< HEAD
+=======
+  <component name="DBNavigator.Project.DatabaseBrowserManager">
+    <autoscroll-to-editor value="false" />
+    <autoscroll-from-editor value="true" />
+    <show-object-properties value="false" />
+    <loaded-nodes />
+  </component>
+>>>>>>> feat-CRUD-film
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="6aaafa03-4ddf-4bc9-b263-fbd38fc20e67">
       <console name="Connection" type="STANDARD" schema="postgres" session="Main"><![CDATA[select * from film]]></console>
@@ -22,9 +39,30 @@
       <console name="Connection 1" type="STANDARD" schema="sakiladb" session="Main" />
     </connection>
   </component>
+<<<<<<< HEAD
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
+=======
+  <component name="DBNavigator.Project.DatabaseEditorStateManager">
+    <last-used-providers />
+  </component>
+  <component name="DBNavigator.Project.DatabaseFileManager">
+    <open-files />
+  </component>
+  <component name="DBNavigator.Project.DatabaseSessionManager">
+    <connection id="6aaafa03-4ddf-4bc9-b263-fbd38fc20e67" />
+    <connection id="ac0e2379-aea6-4aae-bfa4-f214215f111f" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="6aaafa03-4ddf-4bc9-b263-fbd38fc20e67" dataset="information_schema.sql_parts" active-filter-id="" />
+    <filter-actions connection-id="6aaafa03-4ddf-4bc9-b263-fbd38fc20e67" dataset="information_schema.sql_implementation_info" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="ac0e2379-aea6-4aae-bfa4-f214215f111f" dataset="pg_catalog.pg_amop" active-filter-id="" />
+  </component>
+  <component name="DBNavigator.Project.ExecutionManager">
+    <retain-sticky-names value="false" />
+  </component>
+>>>>>>> feat-CRUD-film
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
     <filters />
@@ -648,4 +686,11 @@
       </environment>
     </general-settings>
   </component>
+<<<<<<< HEAD
+=======
+  <component name="DBNavigator.Project.StatementExecutionManager">
+    <execution-variables />
+    <execution-variable-types />
+  </component>
+>>>>>>> feat-CRUD-film
 </project>
