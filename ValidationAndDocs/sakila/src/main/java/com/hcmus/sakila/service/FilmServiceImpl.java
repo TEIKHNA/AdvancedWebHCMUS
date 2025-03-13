@@ -1,28 +1,23 @@
 package com.hcmus.sakila.service;
 
 import com.hcmus.sakila.domain.Film;
-import com.hcmus.sakila.dto.response.FilmDto;
 import com.hcmus.sakila.domain.Language;
-import com.hcmus.sakila.domain.type.RatingType;
+import com.hcmus.sakila.domain.type.Rating;
+import com.hcmus.sakila.dto.request.FilmCreateDto;
+import com.hcmus.sakila.dto.request.FilmUpdateDto;
 import com.hcmus.sakila.dto.response.FilmDto;
 import com.hcmus.sakila.dto.response.FilmStatisticsDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
 import com.hcmus.sakila.repository.FilmRepository;
-import com.hcmus.sakila.repository.FilmRepository;
 import com.hcmus.sakila.repository.LanguageRepository;
-import com.hcmus.sakila.dto.request.FilmCreateDto;
-import com.hcmus.sakila.dto.request.FilmUpdateDto;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +25,7 @@ import java.util.stream.Collectors;
 public class FilmServiceImpl implements FilmService {
 
     private final FilmRepository filmRepository;
+    private final LanguageRepository languageRepository;
 
     @Override
     public ResponseDto<Integer> countFilms() {
@@ -59,129 +55,111 @@ public class FilmServiceImpl implements FilmService {
         }
         return new ResponseDto<>(new FilmDto(film), "Success get film by id " + filmId + "!");
     }
-    @Autowired
-    private FilmRepository filmRepository;
-
-    private final LanguageRepository languageRepository;
 
     @Override
-    public ResponseDto<List<FilmDto>> getFilmsByRating(RatingType rating,
-                                                       Integer number,
-                                                       Integer page) {
+    public ResponseDto<List<FilmDto>> getFilmsByRating(Rating rating, Integer number, Integer page) {
         page = page <= 0 ? 0 : page - 1;
-
         Pageable filmRange = PageRequest.of(page, number);
-
-        String ratingStr = rating.name().replace("_", "-"); // PG_13 -> PG-13
-        List<Film> films = filmRepository.findByRating(ratingStr, filmRange);
-
-        List<FilmDto> filmDtos = films.stream()
-                .map(FilmDto::new)
-                .toList();
-
-
+        List<Film> films = filmRepository.findByRating(rating.getValue(), filmRange);
+        List<FilmDto> filmDtos = films.stream().map(FilmDto::new).toList();
         if (filmDtos.isEmpty()) {
             return new ResponseDto<>(filmDtos, "There are no films with this rating");
         }
-
         return new ResponseDto<>(filmDtos, "Success get list of films by given rating!");
     }
 
     @Override
-    public ResponseDto<List<FilmDto>> getFilmsByReleaseYear(Integer releaseYear,
-                                                            Integer number,
-                                                            Integer page) {
+    public ResponseDto<List<FilmDto>> getFilmsByReleaseYear(Integer releaseYear, Integer number, Integer page) {
         page = page <= 0 ? 0 : page - 1;
-
         Pageable filmRange = PageRequest.of(page, number);
-
         List<Film> films = filmRepository.findAllByReleaseYear(releaseYear, filmRange);
-
-        List<FilmDto> filmDtos = films.stream()
-                .map(FilmDto::new)
-                .toList();
-
+        List<FilmDto> filmDtos = films.stream().map(FilmDto::new).toList();
         if (filmDtos.isEmpty()) {
             return new ResponseDto<>(filmDtos, "There are no films with this release year");
         }
-
         return new ResponseDto<>(filmDtos, "Success get list of films by given release year!");
     }
 
     @Override
-    public ResponseDto<List<FilmDto>> getFilmsByLanguage(Integer language_id,
-                                                         Integer number,
-                                                         Integer page) {
-
-        Optional<Language> language = languageRepository.findById(language_id);
-
+    public ResponseDto<List<FilmDto>> getFilmsByLanguage(Integer languageId, Integer number, Integer page) {
+        Optional<Language> language = languageRepository.findById(languageId);
         page = page <= 0 ? 0 : page - 1;
-
         Pageable filmRange = PageRequest.of(page, number);
-
         List<Film> films = filmRepository.findAllByLanguage(language, filmRange);
-
-        List<FilmDto> filmDtos = films.stream()
-                .map(FilmDto::new)
-                .toList();
-
+        List<FilmDto> filmDtos = films.stream().map(FilmDto::new).toList();
         if (filmDtos.isEmpty()) {
             return new ResponseDto<>(filmDtos, "There are no films with this language");
         }
-
         return new ResponseDto<>(filmDtos, "Success get list of films by given language!");
-
     }
+
     @Override
-    public void updateFilm(Integer film_id, FilmUpdateDto film) {
-        Film oldFilm = filmRepository.findById(film_id)
+    public void updateFilm(Integer filmId, FilmUpdateDto film) {
+        Language originalLanguage = null;
+        Language language = null;
+
+        if (film.getLanguageId() != null) {
+            language = languageRepository.findById(film.getLanguageId())
+                    .orElseThrow(() -> new RuntimeException("Language not found"));
+        }
+        if (film.getOriginalLanguageId() != null) {
+            originalLanguage = languageRepository.findById(film.getOriginalLanguageId())
+                    .orElseThrow(() -> new RuntimeException("Original language not found"));
+        }
+        Film oldFilm = filmRepository.findById(filmId)
                 .orElseThrow(() -> new RuntimeException("Film not found"));
-
-        oldFilm.setTitle(film.getTitle());
-        oldFilm.setDescription(film.getDescription());
-        oldFilm.setReleaseYear(film.getReleaseYear());
-        oldFilm.setLanguage(film.getLanguage());
-        oldFilm.setOriginalLanguage(film.getOriginalLanguage());
-        oldFilm.setRentalDuration(film.getRentalDuration());
-        oldFilm.setRentalRate(film.getRentalRate());
-        oldFilm.setLength(film.getLength());
-        oldFilm.setReplacementCost(film.getReplacementCost());
-//        oldFilm.setRating(film.getRating());
-//        oldFilm.setSpecialFeatures(film.getSpecialFeatures());
+        oldFilm.setTitle(film.getTitle() != null ? film.getTitle() : oldFilm.getTitle());
+        oldFilm.setDescription(film.getDescription() != null ? film.getDescription() : oldFilm.getDescription());
+        oldFilm.setReleaseYear(film.getReleaseYear() != null ? film.getReleaseYear() : oldFilm.getReleaseYear());
+        oldFilm.setLanguage(language != null ? language : oldFilm.getLanguage());
+        oldFilm.setOriginalLanguage(originalLanguage != null ? originalLanguage : oldFilm.getOriginalLanguage());
+        oldFilm.setRentalDuration(film.getRentalDuration() != null ? film.getRentalDuration() : oldFilm.getRentalDuration());
+        oldFilm.setRentalRate(film.getRentalRate() != null ? film.getRentalRate() : oldFilm.getRentalRate());
+        oldFilm.setLength(film.getLength() != null ? film.getLength() : oldFilm.getLength());
+        oldFilm.setReplacementCost(film.getReplacementCost() != null ? film.getReplacementCost() : oldFilm.getReplacementCost());
+        oldFilm.setRating(film.getRating() != null ? film.getRating() : oldFilm.getRating());
+        oldFilm.setSpecialFeatures(film.getSpecialFeatures() != null ? film.getSpecialFeatures() : oldFilm.getSpecialFeatures());
+        oldFilm.setLastUpdate(Instant.now());
         filmRepository.save(oldFilm);
-
-
     }
 
-    public void deleteFilm(Integer film_id) {
-        if (!filmRepository.existsById(film_id)) {
-            throw new RuntimeException("Film not found");
-        }
+    public void deleteFilm(Integer filmId) {
         try {
-            filmRepository.deleteById(film_id);
+            filmRepository.deleteById(filmId);
         } catch (Exception e) {
-            throw new RuntimeException("Cannot delete film with id " + film_id );
+            throw new RuntimeException("Cannot delete film with id " + filmId);
         }
     }
-
-
+    
     @Override
-    public void createFilm(FilmCreateDto film) {
+    public ResponseDto<FilmDto> createFilm(FilmCreateDto film) {
+        Language originalLanguage = null;
+        Language language = null;
+
+        if (film.getLanguageId() != null) {
+            language = languageRepository.findById(film.getLanguageId())
+                    .orElseThrow(() -> new RuntimeException("Language not found"));
+        }
+        if (film.getOriginalLanguageId() != null) {
+            originalLanguage = languageRepository.findById(film.getOriginalLanguageId())
+                    .orElseThrow(() -> new RuntimeException("Original language not found"));
+        }
         Film newFilm = Film.builder()
                 .title(film.getTitle())
                 .description(film.getDescription())
                 .releaseYear(film.getReleaseYear())
-                .language(film.getLanguage())
-                .originalLanguage(film.getOriginalLanguage())
+                .language(language)
+                .originalLanguage(originalLanguage)
                 .rentalDuration(film.getRentalDuration())
                 .rentalRate(film.getRentalRate())
                 .length(film.getLength())
                 .replacementCost(film.getReplacementCost())
-                //.rating(film.getRating())
-                //.specialFeatures(film.getSpecialFeatures())
-                .lastUpdate(LocalDateTime.now())
+                .rating(film.getRating())
+                .specialFeatures(film.getSpecialFeatures())
+                .lastUpdate(Instant.now())
                 .build();
-        filmRepository.save(newFilm);
+        Film savedFilm = filmRepository.save(newFilm);
+        return new ResponseDto<>(new FilmDto(savedFilm), "Success create film!");
     }
 
     @Override

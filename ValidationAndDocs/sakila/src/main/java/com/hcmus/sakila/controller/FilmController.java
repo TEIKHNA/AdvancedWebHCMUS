@@ -1,23 +1,24 @@
 package com.hcmus.sakila.controller;
 
-import com.hcmus.sakila.domain.type.RatingType;
+import com.hcmus.sakila.domain.type.Rating;
+import com.hcmus.sakila.dto.request.FilmCreateDto;
+import com.hcmus.sakila.dto.request.FilmUpdateDto;
 import com.hcmus.sakila.dto.response.FilmDto;
 import com.hcmus.sakila.dto.response.FilmStatisticsDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
 import com.hcmus.sakila.service.FilmService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import com.hcmus.sakila.dto.request.FilmCreateDto;
-import com.hcmus.sakila.dto.request.FilmUpdateDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -26,85 +27,79 @@ public class FilmController {
 
     private final FilmService filmService;
 
+    @Operation(tags = "Film Statistic Service", summary = "Count total films",
+            description = "Count the total number of films.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true)})
     @GetMapping("/count")
     public ResponseEntity<ResponseDto<Integer>> countTotalFilms() {
         ResponseDto<Integer> response = filmService.countFilms();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(tags = "Film Service", summary = "Retrieve all films",
+            description = "Retrieve all films.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true)})
     @GetMapping("/all")
     public ResponseEntity<ResponseDto<List<FilmDto>>> getFilmsList() {
         ResponseDto<List<FilmDto>> response = filmService.getFilmsList();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(tags = "Film Service", summary = "Search films by title",
+            description = "Search films by title using a given keyword.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true)})
     @GetMapping("/search")
-    public ResponseEntity<ResponseDto<List<FilmDto>>> searchFilm(
-            @RequestParam String q) {
+    public ResponseEntity<ResponseDto<List<FilmDto>>> searchFilm(@RequestParam String q) {
         ResponseDto<List<FilmDto>> response = filmService.searchFilmsByTitle(q);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-
-    @GetMapping("/{id}")
+    @Operation(tags = "Film Simple CRUD Service", summary = "Retrieve film information",
+            description = "Retrieve film information by a given id.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true)})
+    @GetMapping("get/{id}")
     public ResponseEntity<ResponseDto<FilmDto>> getFilmInfo(@PathVariable(value = "id") Integer id) {
         ResponseDto<FilmDto> response = filmService.getFilmById(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-
-    // KIET
-    /**
-     * Đếm tổng số phim trong hệ thống
-     * Method: GET
-     * Endpoint: /films/count
-     * Description: Trả về tổng số lượng phim hiện có.
-     *
-     *
-     * Lấy danh sách phim (Pagination)
-     * Method: GET
-     * Endpoint: /film
-     * Query Params: page, size
-     * Description: Trả về danh sách phim, hỗ trợ phân trang.
-     *
-     *
-     * Tìm kiếm phim theo tiêu đề
-     * Method: GET
-     * Endpoint: /film/search
-     * Query Params: title
-     * Description: Trả về danh sách phim có tiêu đề khớp với từ khóa tìm kiếm.
-     *
-     *
-     * Lấy chi tiết một bộ phim
-     * Method: GET
-     * Endpoint: /film/{film_id}
-     * Description: Trả về thông tin chi tiết của một bộ phim theo film_id
-     */
-
-    @PutMapping("update/{film_id}")
-    ResponseDto<Object> updateFilm(@PathVariable Integer film_id, @RequestBody FilmUpdateDto film) {
-        filmService.updateFilm(film_id, film);
-        return ResponseDto.builder()
-                .message("Film updated")
-                .build();
+    @Operation(tags = "Film Simple CRUD Service", summary = "Update film information",
+            description = "Update film information by a given id.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true)})
+    @PutMapping("update/{id}")
+    public ResponseEntity<ResponseDto<?>> updateFilm(
+            @PathVariable Integer id,
+            @Valid @RequestBody FilmUpdateDto film) {
+        filmService.updateFilm(id, film);
+        ResponseDto<?> response = new ResponseDto<>(null, "Film updated!");
+        return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/delete/{film_id}")
-    ResponseDto<Object> deleteFilm(@PathVariable Integer film_id) {
-        filmService.deleteFilm(film_id);
-        return ResponseDto.builder()
-                .message("Film deleted ")
-                .build();
+    @Operation(tags = "Film Simple CRUD Service", summary = "Delete film",
+            description = "Delete film by a given id.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true)})
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ResponseDto<?>> deleteFilm(@PathVariable Integer id) {
+        filmService.deleteFilm(id);
+        ResponseDto<?> response = new ResponseDto<>(null, "Film deleted!");
+        return ResponseEntity.ok(response);
     }
 
+    @Operation(tags = "Film Simple CRUD Service", summary = "Create film",
+            description = "Create a new film.",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Created", useReturnTypeSchema = true)})
     @PostMapping("/create")
-    ResponseDto<Object> createFilm(@RequestBody FilmCreateDto film) {
-        filmService.createFilm(film);
-        return ResponseDto.builder()
-                .message("Film created")
-                .build();
+    public ResponseEntity<ResponseDto<FilmDto>> createFilm(@Valid @RequestBody FilmCreateDto film) {
+        ResponseDto<FilmDto> response = filmService.createFilm(film);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-
 
     @Operation(tags = "Film Service", summary = "Retrieve films by rating",
             description = "Retrieve films by a given rating.",
@@ -112,12 +107,13 @@ public class FilmController {
                     @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
                     @ApiResponse(responseCode = "204", description = "No Content", content = @Content(schema = @Schema())),})
     @GetMapping("/rating/{rating}")
-    public ResponseEntity<ResponseDto<List<FilmDto>>> getFilmsByRating(@PathVariable String rating,
-                                                                       @RequestParam(value = "size", defaultValue = "10") Integer size,
-                                                                       @RequestParam(value = "page", defaultValue = "0") Integer page) {
+    public ResponseEntity<ResponseDto<List<FilmDto>>> getFilmsByRating(
+            @Parameter(name = "Rating", description = "[G, PG, PG-13, R, NC-17]", example = "PG-13")
+            @PathVariable String rating,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "page", defaultValue = "0") Integer page) {
         try {
-            RatingType ratingEnum = RatingType.valueOf(rating.toUpperCase().replace("-", "_"));
-            ResponseDto<List<FilmDto>> response = filmService.getFilmsByRating(ratingEnum, size, page);
+            ResponseDto<List<FilmDto>> response = filmService.getFilmsByRating(Rating.fromValue(rating), size, page);
             if (response.getData() == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
             }
@@ -135,19 +131,19 @@ public class FilmController {
                     @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
                     @ApiResponse(responseCode = "204", description = "No Content", content = @Content(schema = @Schema())),})
     @GetMapping("/year/{releasing_year}")
-    public ResponseEntity<ResponseDto<List<FilmDto>>> getFilmsByReleasingYear(@PathVariable Integer releasing_year,
-                                                                       @RequestParam(value = "size", defaultValue = "10") Integer size,
-                                                                       @RequestParam(value = "page", defaultValue = "0") Integer page) {
+    public ResponseEntity<ResponseDto<List<FilmDto>>> getFilmsByReleasingYear(
+            @PathVariable(value = "releasing_year") Integer releasingYear,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "page", defaultValue = "0") Integer page) {
         try {
-            ResponseDto<List<FilmDto>> response = filmService.getFilmsByReleaseYear(releasing_year, size, page);
+            ResponseDto<List<FilmDto>> response = filmService.getFilmsByReleaseYear(releasingYear, size, page);
             if (response.getData() == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
             }
             return ResponseEntity.status(HttpStatus.OK).body(response);
-
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseDto<>(null, "Invalid year: " + releasing_year));
+                    .body(new ResponseDto<>(null, "Invalid year: " + releasingYear));
         }
     }
 
@@ -157,24 +153,23 @@ public class FilmController {
                     @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
                     @ApiResponse(responseCode = "204", description = "No Content", content = @Content(schema = @Schema())),})
     @GetMapping("/language/{language_id}")
-    public ResponseEntity<ResponseDto<List<FilmDto>>> getFilmsByLanguage(@PathVariable Integer language_id,
-                                                                              @RequestParam(value = "size", defaultValue = "10") Integer size,
-                                                                              @RequestParam(value = "page", defaultValue = "0") Integer page) {
+    public ResponseEntity<ResponseDto<List<FilmDto>>> getFilmsByLanguage(
+            @PathVariable(value = "language_id") Integer languageId,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "page", defaultValue = "0") Integer page) {
         try {
-            ResponseDto<List<FilmDto>> response = filmService.getFilmsByLanguage(language_id, size, page);
+            ResponseDto<List<FilmDto>> response = filmService.getFilmsByLanguage(languageId, size, page);
             if (response.getData() == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
             }
             return ResponseEntity.status(HttpStatus.OK).body(response);
-
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseDto<>(null, "Invalid language id: " + language_id));
+                    .body(new ResponseDto<>(null, "Invalid language id: " + languageId));
         }
     }
-    // VINH
 
-    @Operation(tags = "Film Service", summary = "Retrieve film statistics by rating",
+    @Operation(tags = "Film Statistic Service", summary = "Retrieve film statistics by rating",
             description = "Retrieve the number of films by each rating.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
@@ -188,13 +183,14 @@ public class FilmController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @Operation(tags = "Film Service", summary = "Retrieve longest films",
+    @Operation(tags = "Film Statistic Service", summary = "Retrieve longest films",
             description = "Retrieve the longest films with a specified limit.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
                     @ApiResponse(responseCode = "204", description = "No Content", content = @Content(schema = @Schema())),})
     @GetMapping("/longest")
-    public ResponseEntity<ResponseDto<List<FilmDto>>> getLongestFilms(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+    public ResponseEntity<ResponseDto<List<FilmDto>>> getLongestFilms(
+            @RequestParam(value = "limit", defaultValue = "10") Integer limit) {
         ResponseDto<List<FilmDto>> response = filmService.getLongestFilms(limit);
         if (response.getData() == null || response.getData().isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
@@ -202,40 +198,17 @@ public class FilmController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @Operation(tags = "Film Service", summary = "Retrieve most expensive films",
-    description = "Retrieve the most expensive films with a specified limit.",
-    responses = {
-            @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
-            @ApiResponse(responseCode = "204", description = "No Content", content = @Content(schema = @Schema())),})
-    @GetMapping("/most_expensive")
+    @Operation(tags = "Film Statistic Service", summary = "Retrieve most expensive films",
+            description = "Retrieve the most expensive films with a specified limit.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
+                    @ApiResponse(responseCode = "204", description = "No Content", content = @Content(schema = @Schema())),})
+    @GetMapping("/most-expensive")
     public ResponseEntity<ResponseDto<List<FilmDto>>> getMostExpensiveFilms(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
-    ResponseDto<List<FilmDto>> response = filmService.getMostExpensiveFilms(limit);
-    if (response.getData() == null || response.getData().isEmpty()) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+        ResponseDto<List<FilmDto>> response = filmService.getMostExpensiveFilms(limit);
+        if (response.getData() == null || response.getData().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-    return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-
-    // API du tru, thay the: Chi ap dung cho truong hop qua kho, truong hop co ban khong duoc dung
-    /**
-     *  Lấy danh sách phim cập nhật gần đây nhất
-     * Method: GET
-     * Endpoint: /film/recently_updated
-     * Query Params: limit
-     * Description: Trả về danh sách các phim có last_update gần đây nhất.
-     *
-     *
-     *  Lấy danh sách phim theo khoảng giá thuê
-     * Method: GET
-     * Endpoint: /films/rental_rate_range
-     * Query Params: min, max
-     * Description: Trả về danh sách phim có giá thuê (rental_rate) nằm trong khoảng được chỉ định.
-     *
-     *
-     * Kiểm tra phim có tồn tại không
-     * Method: HEAD
-     * Endpoint: /films/{film_id}
-     * Description: Kiểm tra xem film_id có tồn tại hay không mà không cần trả về nội dung.
-     */
 }

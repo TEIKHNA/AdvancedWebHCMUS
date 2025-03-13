@@ -1,5 +1,8 @@
 package com.hcmus.sakila.domain.type;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Rating {
     G("G"),
     PG("PG"),
@@ -13,10 +16,12 @@ public enum Rating {
         this.value = value;
     }
 
+    @JsonValue
     public String getValue() {
         return value;
     }
 
+    @JsonCreator
     public static Rating fromValue(String value) {
         for (Rating r : Rating.values()) {
             if (r.getValue().equalsIgnoreCase(value)) {

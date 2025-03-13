@@ -1,6 +1,9 @@
+THỰC HIỆN CÁC BƯỚC SAU ĐỂ TẠO RA CÁC CAST VÀ FUNCTION MỚI (Query Console)
+
+# 1
 CREATE CAST (varchar as mpaa_rating) WITH INOUT AS IMPLICIT;
 
-
+# 2
 CREATE FUNCTION varchar_to_text_array(varchar) RETURNS text[] AS $$
 BEGIN
   RETURN string_to_array($1, ','); -- Giả sử các giá trị ngăn cách bởi dấu phẩy
