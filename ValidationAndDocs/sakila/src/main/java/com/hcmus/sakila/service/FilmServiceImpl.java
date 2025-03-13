@@ -1,38 +1,27 @@
 package com.hcmus.sakila.service;
 
 import com.hcmus.sakila.domain.Film;
-<<<<<<< HEAD
 import com.hcmus.sakila.domain.Language;
 import com.hcmus.sakila.domain.type.RatingType;
 import com.hcmus.sakila.dto.response.FilmDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
 import com.hcmus.sakila.repository.FilmRepository;
 import com.hcmus.sakila.repository.LanguageRepository;
-=======
-import com.hcmus.sakila.domain.type.MpaaRating;
 import com.hcmus.sakila.dto.request.FilmCreateDto;
 import com.hcmus.sakila.dto.request.FilmUpdateDto;
-import com.hcmus.sakila.repository.FilmRepository;
->>>>>>> feat-CRUD-film
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-<<<<<<< HEAD
 import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 import java.util.Optional;
-=======
 import java.time.LocalDateTime;
->>>>>>> feat-CRUD-film
 
 @Service
 @AllArgsConstructor
 public class FilmServiceImpl implements FilmService {
 
     private final FilmRepository filmRepository;
-<<<<<<< HEAD
     private final LanguageRepository languageRepository;
 
     @Override
@@ -101,8 +90,8 @@ public class FilmServiceImpl implements FilmService {
         }
 
         return new ResponseDto<>(filmDtos, "Success get list of films by given language!");
-=======
 
+    }
     @Override
     public void updateFilm(Integer film_id, FilmUpdateDto film) {
         Film oldFilm = filmRepository.findById(film_id)
@@ -117,8 +106,8 @@ public class FilmServiceImpl implements FilmService {
         oldFilm.setRentalRate(film.getRentalRate());
         oldFilm.setLength(film.getLength());
         oldFilm.setReplacementCost(film.getReplacementCost());
-        oldFilm.setRating(film.getRating());
-        oldFilm.setSpecialFeatures(film.getSpecialFeatures());
+//        oldFilm.setRating(film.getRating());
+//        oldFilm.setSpecialFeatures(film.getSpecialFeatures());
         filmRepository.save(oldFilm);
 
 
@@ -131,7 +120,7 @@ public class FilmServiceImpl implements FilmService {
         try {
             filmRepository.deleteById(film_id);
         } catch (Exception e) {
-                throw new RuntimeException("Cannot delete film with id " + film_id );
+            throw new RuntimeException("Cannot delete film with id " + film_id );
         }
     }
 
@@ -148,11 +137,10 @@ public class FilmServiceImpl implements FilmService {
                 .rentalRate(film.getRentalRate())
                 .length(film.getLength())
                 .replacementCost(film.getReplacementCost())
-                .rating(film.getRating())
-                .specialFeatures(film.getSpecialFeatures())
+                //.rating(film.getRating())
+                //.specialFeatures(film.getSpecialFeatures())
                 .lastUpdate(LocalDateTime.now())
                 .build();
         filmRepository.save(newFilm);
->>>>>>> feat-CRUD-film
     }
 }

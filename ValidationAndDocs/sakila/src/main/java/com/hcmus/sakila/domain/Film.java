@@ -1,14 +1,6 @@
 package com.hcmus.sakila.domain;
 
-<<<<<<< HEAD
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hcmus.sakila.domain.type.RatingType;
-import com.hcmus.sakila.domain.type.RatingTypeConverter;
-import com.hcmus.sakila.domain.type.SpecialFeatureType;
-import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
-=======
-import com.hcmus.sakila.domain.type.MpaaRating;
->>>>>>> feat-CRUD-film
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,19 +8,11 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-<<<<<<< HEAD
-import java.time.Year;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-=======
->>>>>>> feat-CRUD-film
+
 
 @Getter
 @Setter
@@ -85,32 +69,19 @@ public class Film {
     @Column(name = "replacement_cost", nullable = false, precision = 5, scale = 2)
     private BigDecimal replacementCost;
 
-<<<<<<< HEAD
+
     @Column(name = "rating", columnDefinition = "mpaa_rating")
     private RatingType rating;
 
     @Column(name = "special_features", columnDefinition = "SET('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
     private List<String> specialFeatures;
-=======
-    @ColumnDefault("'G'")
-    @Column(name = "rating", columnDefinition = "mpaa_rating")
-    @Enumerated(EnumType.STRING)
-    private MpaaRating rating;
-
-    @Column(name = "special_features", columnDefinition = "TEXT[]")
-    private String[] specialFeatures;
->>>>>>> feat-CRUD-film
 
     @NotNull
     @ColumnDefault("now()")
     @Column(name = "last_update", nullable = false)
     private LocalDateTime lastUpdate;
 
-<<<<<<< HEAD
 
-}
-
-=======
     // public Set<SpecialFeatureType> getSpecialFeaturesSet() {
     // if (specialFeatures == null || specialFeatures.isEmpty()) {
     // return Set.of();
@@ -128,4 +99,4 @@ public class Film {
     // }
 
 }
->>>>>>> feat-CRUD-film
+

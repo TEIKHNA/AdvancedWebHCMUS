@@ -1,21 +1,16 @@
 package com.hcmus.sakila.dto.request;
 
 import com.hcmus.sakila.domain.Language;
-import com.hcmus.sakila.domain.type.MpaaRating;
+import com.hcmus.sakila.domain.type.RatingType;
 import com.hcmus.sakila.validator.EnumValid;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,7 +32,7 @@ public class FilmCreateDto {
     private Language originalLanguage;
 
     @NotNull
-    private Integer rentalDuration;
+    private Short rentalDuration;
 
     @NotNull
     private BigDecimal rentalRate;
@@ -49,8 +44,8 @@ public class FilmCreateDto {
     private BigDecimal replacementCost;
 
     @NotNull(message = "Rating is required")
-    @EnumValid(enumClass = MpaaRating.class, message = "Invalid rating value")
-    private MpaaRating rating;
+    @EnumValid(enumClass = RatingType.class, message = "Invalid rating value")
+    private RatingType rating;
 
     private String[] specialFeatures;
 

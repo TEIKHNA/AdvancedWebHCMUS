@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c8e347f-b299-4883-ab78-b11314629f64" name="Changes" comment="" />
+    <list default="true" id="8c8e347f-b299-4883-ab78-b11314629f64" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../RESTful API/actor/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/../RESTful API/actor/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RESTful API/actor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RESTful API/actor/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RESTful API/actor/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../RESTful API/actor/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/controller/FilmController.java" beforeDir="false" afterPath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/controller/FilmController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/domain/Film.java" beforeDir="false" afterPath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/domain/Film.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/domain/type/MpaaRating.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/domain/type/RatingType.java" beforeDir="false" afterPath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/domain/type/RatingType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/dto/request/FilmCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/dto/request/FilmCreateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/dto/request/FilmUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/dto/request/FilmUpdateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/service/FilmService.java" beforeDir="false" afterPath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/service/FilmService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/service/FilmServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/sakila/src/main/java/com/hcmus/sakila/service/FilmServiceImpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,7 +57,7 @@
     "Maven.sakila [install].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "feat-CRUD-film",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/Subject/adv_web/AdvancedWebHCMUS/ValidationAndDocs",
     "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
