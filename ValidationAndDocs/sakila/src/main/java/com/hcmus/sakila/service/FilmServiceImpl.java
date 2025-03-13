@@ -118,4 +118,10 @@ public class FilmServiceImpl implements FilmService {
         return new ResponseDto<>(filmDtos, "Success get longest films! (at most " + limit + ")");
     }
 
+    @Override
+    public ResponseDto<List<FilmDto>> getMostExpensiveFilms(Integer limit) {
+        List<Film> films = filmRepository.findMostExpensiveFilms(PageRequest.of(0, limit));
+        List<FilmDto> filmDtos = films.stream().map(FilmDto::new).collect(Collectors.toList());
+        return new ResponseDto<>(filmDtos, "Success get most expensive films! (at most " + limit + ")");
+    }
 }

@@ -189,6 +189,20 @@ public class FilmController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @Operation(tags = "Film Service", summary = "Retrieve most expensive films",
+    description = "Retrieve the most expensive films with a specified limit.",
+    responses = {
+            @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
+            @ApiResponse(responseCode = "204", description = "No Content", content = @Content(schema = @Schema())),})
+    @GetMapping("/most_expensive")
+    public ResponseEntity<ResponseDto<List<FilmDto>>> getMostExpensiveFilms(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+    ResponseDto<List<FilmDto>> response = filmService.getMostExpensiveFilms(limit);
+    if (response.getData() == null || response.getData().isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+    }
+    return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
     // VINH
     /**
      * Thống kê số lượng phim theo rating

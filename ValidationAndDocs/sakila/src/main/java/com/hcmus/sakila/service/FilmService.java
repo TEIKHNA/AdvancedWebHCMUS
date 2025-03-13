@@ -20,5 +20,6 @@ public interface FilmService {
                                                   Integer number,
                                                   Integer page);
     ResponseDto<Map<String, Long>> getFilmStatisticsByRating();
-    ResponseDto<List<FilmDto>> getLongestFilms(Integer limit);                                              
+    ResponseDto<List<FilmDto>> getLongestFilms(Integer limit);      
+    ResponseDto<List<FilmDto>> getMostExpensiveFilms(Integer limit);                                           
 }

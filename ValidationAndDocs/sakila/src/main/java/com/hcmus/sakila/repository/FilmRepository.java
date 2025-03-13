@@ -24,4 +24,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 
     @Query("SELECT f FROM Film f ORDER BY f.length DESC")
     List<Film> findLongestFilms(Pageable pageable);
+
+    @Query("SELECT f FROM Film f ORDER BY f.rentalRate DESC")
+    List<Film> findMostExpensiveFilms(Pageable pageable);
 }
