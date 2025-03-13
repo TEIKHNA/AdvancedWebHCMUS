@@ -1,7 +1,10 @@
 package com.hcmus.sakila.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hcmus.sakila.domain.type.RatingType;
+import com.hcmus.sakila.domain.type.RatingTypeConverter;
 import com.hcmus.sakila.domain.type.SpecialFeatureType;
+import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,6 +13,7 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -72,9 +76,7 @@ public class Film {
     @Column(name = "replacement_cost", nullable = false, precision = 5, scale = 2)
     private BigDecimal replacementCost;
 
-    @Enumerated(EnumType.STRING)
-    @ColumnDefault("'G'")
-    @Column(name = "rating", columnDefinition = "ENUM('G','PG','PG-13','R','NC-17')")
+    @Column(name = "rating", columnDefinition = "mpaa_rating")
     private RatingType rating;
 
     @Column(name = "special_features", columnDefinition = "SET('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
