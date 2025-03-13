@@ -4,6 +4,7 @@ import com.hcmus.sakila.domain.Film;
 import com.hcmus.sakila.domain.Language;
 import com.hcmus.sakila.domain.type.RatingType;
 import com.hcmus.sakila.dto.response.FilmDto;
+import com.hcmus.sakila.dto.response.FilmStatisticsDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
 import com.hcmus.sakila.repository.FilmRepository;
 import com.hcmus.sakila.repository.LanguageRepository;
@@ -97,17 +98,11 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public ResponseDto<Map<String, Long>> getFilmStatisticsByRating() {
+    public ResponseDto<List<FilmStatisticsDto>> getFilmStatisticsByRating() {
         List<Object[]> results = filmRepository.countFilmsByRating();
-        Map<String, Long> statistics = new HashMap<>();
-        for (Object[] result : results) {
-            String rating = result[0].toString(); // Convert RatingType to String
-            Long count = (Long) result[1];
-            statistics.put(rating, count);
-        }
-        if (statistics.isEmpty()) {
-            return new ResponseDto<>(statistics, "There are no films in the database");
-        }
+        List<FilmStatisticsDto> statistics = results.stream()
+                .map(result -> new FilmStatisticsDto(result[0].toString(), (Long) result[1]))
+                .collect(Collectors.toList());
         return new ResponseDto<>(statistics, "Success get film statistics by rating!");
     }
 

@@ -2,6 +2,7 @@ package com.hcmus.sakila.service;
 
 import com.hcmus.sakila.domain.type.RatingType;
 import com.hcmus.sakila.dto.response.FilmDto;
+import com.hcmus.sakila.dto.response.FilmStatisticsDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface FilmService {
     ResponseDto<List<FilmDto>> getFilmsByLanguage(Integer language_id,
                                                   Integer number,
                                                   Integer page);
-    ResponseDto<Map<String, Long>> getFilmStatisticsByRating();
+    ResponseDto<List<FilmStatisticsDto>> getFilmStatisticsByRating();
     ResponseDto<List<FilmDto>> getLongestFilms(Integer limit);      
     ResponseDto<List<FilmDto>> getMostExpensiveFilms(Integer limit);                                           
 }
