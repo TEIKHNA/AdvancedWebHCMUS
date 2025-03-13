@@ -2,7 +2,6 @@ package com.hcmus.sakila.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -23,9 +22,7 @@ public class Language {
     @Column(name = "language_id", nullable = false)
     private Integer id;
 
-    @Size(max = 20)
-    @NotNull
-    @Column(name = "name", nullable = false, length = 20)
+    @Column(name = "name", columnDefinition = "bpchar(20)")
     private String name;
 
     @NotNull
