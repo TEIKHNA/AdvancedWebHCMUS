@@ -1,15 +1,10 @@
 package com.hcmus.sakila.service;
 
-import com.hcmus.sakila.domain.Actor;
 import com.hcmus.sakila.domain.Film;
 import com.hcmus.sakila.domain.Language;
 import com.hcmus.sakila.domain.type.RatingType;
-import com.hcmus.sakila.dto.request.ActorAddDto;
-import com.hcmus.sakila.dto.request.ActorUpdateDto;
-import com.hcmus.sakila.dto.response.ActorDto;
 import com.hcmus.sakila.dto.response.FilmDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
-import com.hcmus.sakila.repository.ActorRepository;
 import com.hcmus.sakila.repository.FilmRepository;
 import com.hcmus.sakila.repository.LanguageRepository;
 import lombok.AllArgsConstructor;
@@ -18,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 

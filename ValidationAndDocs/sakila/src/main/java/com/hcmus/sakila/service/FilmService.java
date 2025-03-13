@@ -1,9 +1,6 @@
 package com.hcmus.sakila.service;
 
 import com.hcmus.sakila.domain.type.RatingType;
-import com.hcmus.sakila.dto.request.ActorAddDto;
-import com.hcmus.sakila.dto.request.ActorUpdateDto;
-import com.hcmus.sakila.dto.response.ActorDto;
 import com.hcmus.sakila.dto.response.FilmDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
 

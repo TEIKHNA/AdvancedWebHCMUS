@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -156,13 +155,6 @@ public class FilmController {
                     .body(new ResponseDto<>(null, "Invalid language id: " + language_id));
         }
     }
-    /**
-     * Lấy danh sách phim có phụ đề theo một ngôn ngữ cụ thể
-     * Method: GET
-     * Endpoint: /film/language/{language_id}?size=10&page=1
-     * Description: Trả về danh sách phim có ngôn ngữ hoặc phụ đề phù hợp với language_id.
-     *
-     */
 
     // VINH
     /**

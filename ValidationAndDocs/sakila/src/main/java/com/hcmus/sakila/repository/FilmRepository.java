@@ -2,7 +2,6 @@ package com.hcmus.sakila.repository;
 
 import com.hcmus.sakila.domain.Film;
 import com.hcmus.sakila.domain.Language;
-import com.hcmus.sakila.domain.type.RatingType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
