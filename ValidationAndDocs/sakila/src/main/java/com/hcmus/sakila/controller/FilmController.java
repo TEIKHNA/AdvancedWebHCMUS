@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import com.hcmus.sakila.dto.request.FilmCreateDto;
+import com.hcmus.sakila.dto.request.FilmUpdateDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,73 +26,32 @@ public class FilmController {
 
     private final FilmService filmService;
 
-    // KIET
-    /**
-     * Đếm tổng số phim trong hệ thống
-     * Method: GET
-     * Endpoint: /films/count
-     * Description: Trả về tổng số lượng phim hiện có.
-     *
-     *
-     * Lấy danh sách phim (Pagination)
-     * Method: GET
-     * Endpoint: /film
-     * Query Params: page, size
-     * Description: Trả về danh sách phim, hỗ trợ phân trang.
-     *
-     *
-     * Tìm kiếm phim theo tiêu đề
-     * Method: GET
-     * Endpoint: /film/search
-     * Query Params: title
-     * Description: Trả về danh sách phim có tiêu đề khớp với từ khóa tìm kiếm.
-     *
-     *
-     * Lấy chi tiết một bộ phim
-     * Method: GET
-     * Endpoint: /film/{film_id}
-     * Description: Trả về thông tin chi tiết của một bộ phim theo film_id
-     */
 
-    // YEN
-    /**
-     * Cập nhật thông tin phim
-     * Method: PUT
-     * Endpoint: /film/{film_id}
-     * Description: Cập nhật thông tin của một bộ phim.
-     *
-     *
-     * Xóa phim
-     * Method: DELETE
-     * Endpoint: /film/{film_id}
-     * Description: Xóa bộ phim theo film_id
-     *
-     *
-     * Thêm phim mới
-     * Method: POST
-     * Endpoint: /film
-     * Request Body:
-     * json
-     * Sao chép
-     * Chỉnh sửa
-     * {
-     *   "title": "New Movie",
-     *   "description": "Movie description",
-     *   "release_year": 2023,
-     *   "language_id": 1,
-     *   "original_language_id": 2,
-     *   "rental_duration": 5,
-     *   "rental_rate": 4.99,
-     *   "length": 120,
-     *   "replacement_cost": 19.99,
-     *   "rating": "PG",
-     *   "special_features": ["Trailers", "Deleted Scenes"]
-     * }
-     * Description: Thêm một bộ phim mới vào database.
-     */
+    @PutMapping("update/{film_id}")
+    ResponseDto<Object> updateFilm(@PathVariable Integer film_id, @RequestBody FilmUpdateDto film) {
+        filmService.updateFilm(film_id, film);
+        return ResponseDto.builder()
+                .message("Film updated")
+                .build();
+    }
+
+    @DeleteMapping("/delete/{film_id}")
+    ResponseDto<Object> deleteFilm(@PathVariable Integer film_id) {
+        filmService.deleteFilm(film_id);
+        return ResponseDto.builder()
+                .message("Film deleted ")
+                .build();
+    }
+
+    @PostMapping("/create")
+    ResponseDto<Object> createFilm(@RequestBody FilmCreateDto film) {
+        filmService.createFilm(film);
+        return ResponseDto.builder()
+                .message("Film created")
+                .build();
+    }
 
 
-    // AN
     @Operation(tags = "Film Service", summary = "Retrieve films by rating",
             description = "Retrieve films by a given rating.",
             responses = {
@@ -157,7 +118,6 @@ public class FilmController {
                     .body(new ResponseDto<>(null, "Invalid language id: " + language_id));
         }
     }
-    
     // VINH
 
     @Operation(tags = "Film Service", summary = "Retrieve film statistics by rating",
