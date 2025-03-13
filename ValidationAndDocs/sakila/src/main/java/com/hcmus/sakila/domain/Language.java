@@ -31,7 +31,7 @@ public class Language {
     @NotNull
     @ColumnDefault("now()")
     @Column(name = "last_update", nullable = false)
-    private LocalDateTime lastUpdate;
+    private Instant lastUpdate;
 
     @OneToMany(mappedBy = "language")
     private Set<Film> films = new LinkedHashSet<>();

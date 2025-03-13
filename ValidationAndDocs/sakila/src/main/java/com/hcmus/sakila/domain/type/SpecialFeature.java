@@ -18,7 +18,7 @@ public enum SpecialFeature {
 
     public static SpecialFeature fromValue(String value) {
         for (SpecialFeature f : SpecialFeature.values()) {
-            if (f.getValue().equalsIgnoreCase(value)) {
+            if (f.getValue().equalsIgnoreCase(value) || value.contains(f.getValue())) {
                 return f;
             }
         }

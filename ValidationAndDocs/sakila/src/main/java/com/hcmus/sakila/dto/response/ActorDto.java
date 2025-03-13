@@ -2,6 +2,7 @@ package com.hcmus.sakila.dto.response;
 
 import com.hcmus.sakila.domain.Actor;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

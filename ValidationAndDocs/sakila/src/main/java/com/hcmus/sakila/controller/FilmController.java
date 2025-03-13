@@ -1,18 +1,8 @@
 package com.hcmus.sakila.controller;
 
-import com.hcmus.sakila.domain.Film;
-import com.hcmus.sakila.dto.request.ActorAddDto;
-import com.hcmus.sakila.dto.request.ActorUpdateDto;
-import com.hcmus.sakila.dto.response.ActorDto;
-import com.hcmus.sakila.dto.response.ErrorResponseDto;
+import com.hcmus.sakila.dto.response.FilmDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
-import com.hcmus.sakila.service.ActorService;
 import com.hcmus.sakila.service.FilmService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +16,33 @@ import java.util.List;
 public class FilmController {
 
     private final FilmService filmService;
+
+    @GetMapping("/count")
+    public ResponseEntity<ResponseDto<Integer>> countTotalFilms() {
+        ResponseDto<Integer> response = filmService.countFilms();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<ResponseDto<List<FilmDto>>> getFilmsList() {
+        ResponseDto<List<FilmDto>> response = filmService.getFilmsList();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ResponseDto<List<FilmDto>>> searchFilm(
+            @RequestParam String q) {
+        ResponseDto<List<FilmDto>> response = filmService.searchFilmsByTitle(q);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDto<FilmDto>> getFilmInfo(@PathVariable(value = "id") Integer id) {
+        ResponseDto<FilmDto> response = filmService.getFilmById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 
     // KIET
     /**
