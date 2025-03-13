@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
@@ -153,6 +154,25 @@ public class FilmController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseDto<>(null, "Invalid language id: " + language_id));
+        }
+    }
+
+    @Operation(tags = "Film Service", summary = "Retrieve film statistics by rating",
+            description = "Retrieve the number of films by each rating.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
+                    @ApiResponse(responseCode = "204", description = "No Content", content = @Content(schema = @Schema())),})
+    @GetMapping("/statistics")
+    public ResponseEntity<ResponseDto<Map<String, Long>>> getFilmStatisticsByRating() {
+        try {
+            ResponseDto<Map<String, Long>> response = filmService.getFilmStatisticsByRating();
+            if (response.getData() == null || response.getData().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ResponseDto<>(null, "An error occurred while retrieving film statistics."));
         }
     }
 

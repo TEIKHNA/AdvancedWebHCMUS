@@ -5,6 +5,7 @@ import com.hcmus.sakila.dto.response.FilmDto;
 import com.hcmus.sakila.dto.response.ResponseDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FilmService {
     ResponseDto<List<FilmDto>> getFilmsByRating(RatingType rating,
@@ -18,4 +19,5 @@ public interface FilmService {
     ResponseDto<List<FilmDto>> getFilmsByLanguage(Integer language_id,
                                                   Integer number,
                                                   Integer page);
+    ResponseDto<Map<String, Long>> getFilmStatisticsByRating();                                              
 }

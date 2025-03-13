@@ -8,19 +8,23 @@ import com.hcmus.sakila.dto.response.ResponseDto;
 import com.hcmus.sakila.repository.FilmRepository;
 import com.hcmus.sakila.repository.LanguageRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import org.springframework.data.domain.Pageable;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class FilmServiceImpl implements FilmService {
 
-    private final FilmRepository filmRepository;
+    @Autowired
+    private FilmRepository filmRepository;
+
     private final LanguageRepository languageRepository;
 
     @Override
@@ -90,4 +94,20 @@ public class FilmServiceImpl implements FilmService {
 
         return new ResponseDto<>(filmDtos, "Success get list of films by given language!");
     }
+
+    @Override
+    public ResponseDto<Map<String, Long>> getFilmStatisticsByRating() {
+        List<Object[]> results = filmRepository.countFilmsByRating();
+        Map<String, Long> statistics = new HashMap<>();
+        for (Object[] result : results) {
+            String rating = result[0].toString(); // Convert RatingType to String
+            Long count = (Long) result[1];
+            statistics.put(rating, count);
+        }
+        if (statistics.isEmpty()) {
+            return new ResponseDto<>(statistics, "There are no films in the database");
+        }
+        return new ResponseDto<>(statistics, "Success get film statistics by rating!");
+    }
+
 }
