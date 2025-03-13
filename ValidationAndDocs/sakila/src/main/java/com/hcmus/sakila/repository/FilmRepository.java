@@ -21,4 +21,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
     
     @Query("SELECT f.rating, COUNT(f) FROM Film f GROUP BY f.rating")
     List<Object[]> countFilmsByRating();
+
+    @Query("SELECT f FROM Film f ORDER BY f.length DESC")
+    List<Film> findLongestFilms(Pageable pageable);
 }

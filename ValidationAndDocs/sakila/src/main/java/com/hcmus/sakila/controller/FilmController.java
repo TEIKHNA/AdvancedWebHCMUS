@@ -176,6 +176,19 @@ public class FilmController {
         }
     }
 
+    @Operation(tags = "Film Service", summary = "Retrieve longest films",
+            description = "Retrieve the longest films with a specified limit.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ok", useReturnTypeSchema = true),
+                    @ApiResponse(responseCode = "204", description = "No Content", content = @Content(schema = @Schema())),})
+    @GetMapping("/longest")
+    public ResponseEntity<ResponseDto<List<FilmDto>>> getLongestFilms(@RequestParam(value = "limit", defaultValue = "10") Integer limit) {
+        ResponseDto<List<FilmDto>> response = filmService.getLongestFilms(limit);
+        if (response.getData() == null || response.getData().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
     // VINH
     /**
      * Thống kê số lượng phim theo rating

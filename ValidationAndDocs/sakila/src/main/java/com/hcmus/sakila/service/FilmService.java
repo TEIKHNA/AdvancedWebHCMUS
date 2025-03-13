@@ -19,5 +19,6 @@ public interface FilmService {
     ResponseDto<List<FilmDto>> getFilmsByLanguage(Integer language_id,
                                                   Integer number,
                                                   Integer page);
-    ResponseDto<Map<String, Long>> getFilmStatisticsByRating();                                              
+    ResponseDto<Map<String, Long>> getFilmStatisticsByRating();
+    ResponseDto<List<FilmDto>> getLongestFilms(Integer limit);                                              
 }

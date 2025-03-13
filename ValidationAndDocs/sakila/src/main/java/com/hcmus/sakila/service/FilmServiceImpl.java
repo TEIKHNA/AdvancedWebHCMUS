@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -108,6 +109,13 @@ public class FilmServiceImpl implements FilmService {
             return new ResponseDto<>(statistics, "There are no films in the database");
         }
         return new ResponseDto<>(statistics, "Success get film statistics by rating!");
+    }
+
+    @Override
+    public ResponseDto<List<FilmDto>> getLongestFilms(Integer limit) {
+        List<Film> films = filmRepository.findLongestFilms(PageRequest.of(0, limit));
+        List<FilmDto> filmDtos = films.stream().map(FilmDto::new).collect(Collectors.toList());
+        return new ResponseDto<>(filmDtos, "Success get longest films! (at most " + limit + ")");
     }
 
 }
