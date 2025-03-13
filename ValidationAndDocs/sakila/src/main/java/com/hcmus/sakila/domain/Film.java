@@ -1,26 +1,24 @@
 package com.hcmus.sakila.domain;
 
-import com.hcmus.sakila.domain.type.RatingType;
-import com.hcmus.sakila.domain.type.SpecialFeatureType;
+import com.hcmus.sakila.domain.type.MpaaRating;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "film")
+@Builder
 public class Film {
 
     @Id
@@ -62,39 +60,40 @@ public class Film {
     private BigDecimal rentalRate;
 
     @Column(name = "length")
-    private Integer length;
+    private Short length;
 
     @NotNull
     @ColumnDefault("19.99")
     @Column(name = "replacement_cost", nullable = false, precision = 5, scale = 2)
     private BigDecimal replacementCost;
 
-    @Enumerated(EnumType.STRING)
     @ColumnDefault("'G'")
-    @Column(name = "rating", columnDefinition = "ENUM('G','PG','PG-13','R','NC-17')")
-    private RatingType rating;
+    @Column(name = "rating", columnDefinition = "mpaa_rating")
+    @Enumerated(EnumType.STRING)
+    private MpaaRating rating;
 
-    @Column(name = "special_features", columnDefinition = "SET('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
-    private String specialFeatures;
+    @Column(name = "special_features", columnDefinition = "TEXT[]")
+    private String[] specialFeatures;
 
     @NotNull
     @ColumnDefault("now()")
     @Column(name = "last_update", nullable = false)
     private LocalDateTime lastUpdate;
 
-    public Set<SpecialFeatureType> getSpecialFeaturesSet() {
-        if (specialFeatures == null || specialFeatures.isEmpty()) {
-            return Set.of();
-        }
-        return Stream.of(specialFeatures.split(","))
-                .map(String::trim)
-                .map(SpecialFeatureType::fromString)
-                .collect(Collectors.toSet());
-    }
+    // public Set<SpecialFeatureType> getSpecialFeaturesSet() {
+    // if (specialFeatures == null || specialFeatures.isEmpty()) {
+    // return Set.of();
+    // }
+    // return Stream.of(specialFeatures.split(","))
+    // .map(String::trim)
+    // .map(SpecialFeatureType::fromString)
+    // .collect(Collectors.toSet());
+    // }
+    //
+    // public void setSpecialFeaturesSet(Set<SpecialFeatureType> features) {
+    // this.specialFeatures = features.stream()
+    // .map(SpecialFeatureType::toString)
+    // .collect(Collectors.joining(","));
+    // }
 
-    public void setSpecialFeaturesSet(Set<SpecialFeatureType> features) {
-        this.specialFeatures = features.stream()
-                .map(SpecialFeatureType::toString)
-                .collect(Collectors.joining(","));
-    }
 }
