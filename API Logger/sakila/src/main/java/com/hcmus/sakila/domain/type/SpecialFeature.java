@@ -27,6 +27,6 @@ public enum SpecialFeature {
                 return f;
             }
         }
-        throw new IllegalArgumentException("Unknown SpecialFeature: " + value);
+        throw new IllegalArgumentException("Unknown special feature: " + value);
     }
 }

@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -16,6 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "language")
 public class Language {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "language_id_gen")
     @SequenceGenerator(name = "language_id_gen", sequenceName = "language_language_id_seq", allocationSize = 1)

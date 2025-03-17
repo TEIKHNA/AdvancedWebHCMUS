@@ -2,7 +2,6 @@ package com.hcmus.sakila.dto.response;
 
 import com.hcmus.sakila.domain.Actor;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +17,13 @@ public class ActorDto {
 
     @Schema(description = "Id of an actor", example = "1")
     private Integer id;
+
     @Schema(description = "First name of an actor", example = "An")
     private String firstName;
+
     @Schema(description = "Last name of an actor", example = "Nguyen")
     private String lastName;
+
     @Schema(description = "Last update date", example = "2018-12-30T19:34:50.63Z")
     private Instant lastUpdate;
 

@@ -15,13 +15,13 @@ public interface FilmService {
 
     ResponseDto<List<FilmDto>> getFilmsByReleaseYear(Integer releaseYear, Integer number, Integer page);
 
-    ResponseDto<List<FilmDto>> getFilmsByLanguage(Integer language_id, Integer number, Integer page);
+    ResponseDto<List<FilmDto>> getFilmsByLanguage(Integer languageId, Integer number, Integer page);
 
-    void updateFilm(Integer filmId, FilmUpdateDto film);
-
-    void deleteFilm(Integer filmId);
+    ResponseDto<FilmDto> updateFilm(Integer filmId, FilmUpdateDto film);
 
     ResponseDto<FilmDto> createFilm(FilmCreateDto film);
+
+    ResponseDto<?> deleteFilm(Integer filmId);
 
     ResponseDto<List<FilmStatisticsDto>> getFilmStatisticsByRating();
 

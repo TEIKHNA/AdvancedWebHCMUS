@@ -24,6 +24,7 @@ import java.util.List;
 @Entity
 @Table(name = "film")
 public class Film {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "film_id_gen")
     @SequenceGenerator(name = "film_id_gen", sequenceName = "film_film_id_seq", allocationSize = 1)
