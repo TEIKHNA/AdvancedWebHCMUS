@@ -1,0 +1,43 @@
+2025-03-20 01:07:48,036 INFO Version [background-preinit] HV000001: Hibernate Validator 8.0.1.Final
+2025-03-20 01:07:48,101 INFO StartupInfoLogger [main] Starting SakilaApplication using Java 17.0.12 with PID 3060 (C:\Users\nguyn\Desktop\AdvancedWebHCMUS\API Logger\sakila\target\classes started by nguyn in C:\Users\nguyn\Desktop\AdvancedWebHCMUS\API Logger\sakila)
+2025-03-20 01:07:48,108 DEBUG StartupInfoLogger [main] Running with Spring Boot v3.4.0, Spring v6.2.0
+2025-03-20 01:07:48,111 INFO SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2025-03-20 01:07:49,203 INFO RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-03-20 01:07:49,275 INFO RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 63 ms. Found 3 JPA repository interfaces.
+2025-03-20 01:07:49,814 INFO TomcatWebServer [main] Tomcat initialized with port 8080 (http)
+2025-03-20 01:07:49,827 INFO DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2025-03-20 01:07:49,830 INFO DirectJDKLog [main] Starting service [Tomcat]
+2025-03-20 01:07:49,830 INFO DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/10.1.33]
+2025-03-20 01:07:49,904 INFO DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2025-03-20 01:07:49,905 INFO ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 1717 ms
+2025-03-20 01:07:50,097 INFO LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-03-20 01:07:50,149 INFO Version [main] HHH000412: Hibernate ORM core version 6.6.2.Final
+2025-03-20 01:07:50,181 INFO RegionFactoryInitiator [main] HHH000026: Second-level cache disabled
+2025-03-20 01:07:50,276 INFO HikariDataSource [main] HikariPool-1 - Starting...
+2025-03-20 01:07:50,519 INFO HikariPool [main] HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6a6e9289
+2025-03-20 01:07:50,521 INFO HikariDataSource [main] HikariPool-1 - Start completed.
+2025-03-20 01:07:50,567 WARN DialectFactoryImpl [main] HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-03-20 01:07:50,594 INFO JdbcEnvironmentInitiator [main] HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-03-20 01:07:50,878 INFO SpringPersistenceUnitInfo [main] No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-03-20 01:07:51,971 INFO JtaPlatformInitiator [main] HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-03-20 01:07:51,974 INFO AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-03-20 01:07:52,252 INFO QueryEnhancerFactory [main] Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-03-20 01:07:52,830 WARN JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-03-20 01:07:53,293 INFO DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2025-03-20 01:07:53,348 INFO TomcatWebServer [main] Tomcat started on port 8080 (http) with context path '/'
+2025-03-20 01:07:53,360 INFO StartupInfoLogger [main] Started SakilaApplication in 5.9 seconds (process running for 7.137)
+2025-03-20 01:07:58,822 INFO DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-03-20 01:07:58,822 INFO FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2025-03-20 01:07:58,823 INFO FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 1 ms
+2025-03-20 01:09:41,681 INFO GracefulShutdown [SpringApplicationShutdownHook] Commencing graceful shutdown. Waiting for active requests to complete
+2025-03-20 01:09:41,715 INFO GracefulShutdown [tomcat-shutdown] Graceful shutdown complete
+2025-03-20 01:09:41,720 INFO AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-03-20 01:09:41,722 INFO HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2025-03-20 01:09:41,731 INFO HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
