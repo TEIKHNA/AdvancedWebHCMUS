@@ -2,7 +2,6 @@ package com.hcmus.sakila.exception;
 
 import com.hcmus.sakila.dto.response.ResponseDto;
 import com.hcmus.sakila.dto.response.Status;
-import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,7 +12,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.util.List;
 
 @RestControllerAdvice
-@Hidden
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
