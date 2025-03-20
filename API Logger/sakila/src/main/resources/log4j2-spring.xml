@@ -12,7 +12,7 @@
         <!-- Separate File Appender for API Logs -->
         <RollingFile name="ApiLogFile"
                      fileName="./logs/api-logs.log"
-                     filePattern="./logs/previous-logs-$${date:yyyy-MM}/api-logs-%d{-dd-MMMM-yyyy}-%i.log.txt">
+                     filePattern="./logs/previous-logs-$${date:yyyy-MM}/api-logs-%d{-dd-MMMM-yyyy}-%i.log">
             <PatternLayout>
                 <pattern>%d %p %C{1} [%t] %m%n</pattern>
             </PatternLayout>
