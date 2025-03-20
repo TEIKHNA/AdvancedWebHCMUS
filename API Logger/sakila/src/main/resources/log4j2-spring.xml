@@ -9,24 +9,10 @@
             </PatternLayout>
         </Console>
 
-        <!-- Rolling File Appender for all logs -->
-        <RollingFile name="RollingFile"
-                     fileName="./logs/application.log"
-                     filePattern="./logs/$${date:yyyy-MM}/application-%d{-dd-MMMM-yyyy}-%i.log.txt">
-            <PatternLayout>
-                <pattern>%d %p %C{1} [%t] %m%n</pattern>
-            </PatternLayout>
-            <Policies>
-                <OnStartupTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="10MB" />
-                <TimeBasedTriggeringPolicy />
-            </Policies>
-        </RollingFile>
-
         <!-- Separate File Appender for API Logs -->
         <RollingFile name="ApiLogFile"
                      fileName="./logs/api-logs.log"
-                     filePattern="./logs/$${date:yyyy-MM}/api-logs-%d{-dd-MMMM-yyyy}-%i.log.txt">
+                     filePattern="./logs/previous-logs-$${date:yyyy-MM}/api-logs-%d{-dd-MMMM-yyyy}-%i.log.txt">
             <PatternLayout>
                 <pattern>%d %p %C{1} [%t] %m%n</pattern>
             </PatternLayout>
@@ -34,7 +20,9 @@
                 <SizeBasedTriggeringPolicy size="10MB" />
                 <TimeBasedTriggeringPolicy />
             </Policies>
+            <DefaultRolloverStrategy max="1" />
         </RollingFile>
+
 
     </Appenders>
 
@@ -48,11 +36,10 @@
         <!-- Logger for Application-Specific Logs -->
         <Logger name="com.hcmus.sakila" level="trace" additivity="false">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="RollingFile"/>
         </Logger>
 
         <!-- API Logger: Logs API requests and responses only to the file -->
-        <Logger name="API_LOGGER" level="info" additivity="false">
+        <Logger name="API_LOGGER" level="trace" additivity="false">
             <AppenderRef ref="ApiLogFile"/>
         </Logger>
     </Loggers>
