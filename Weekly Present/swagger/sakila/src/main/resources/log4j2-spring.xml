@@ -30,13 +30,7 @@
         <!-- Root Logger for General Logs (Console + Application Log File) -->
         <Root level="info">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="RollingFile"/>
         </Root>
-
-        <!-- Logger for Application-Specific Logs -->
-        <Logger name="com.hcmus.sakila" level="trace" additivity="false">
-            <AppenderRef ref="Console"/>
-        </Logger>
 
         <!-- API Logger: Logs API requests and responses only to the file -->
         <Logger name="API_LOGGER" level="trace" additivity="false">
