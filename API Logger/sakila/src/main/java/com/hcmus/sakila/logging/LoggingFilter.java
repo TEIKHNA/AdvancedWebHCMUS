@@ -1,4 +1,4 @@
-package com.hcmus.sakila.config;
+package com.hcmus.sakila.logging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hcmus.sakila.dto.response.ResponseDto;
