@@ -12,6 +12,11 @@ http://localhost:8080/v3/api-docs
 springdoc.swagger-ui.path=/swagger-ui.html
 
 @Operation(tags, summary, description)
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", useReturnTypeSchema = true),
+            @ApiResponse(responseCode = "404", description = "BAD REQUEST", content = @Content),
+    })
 @Schema(description, example)
 request and response
 
