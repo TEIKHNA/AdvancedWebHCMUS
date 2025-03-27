@@ -13,8 +13,8 @@ import java.util.stream.Stream;
 public class LoggingFilterController {
     private static final String LOG_FILE = "./logs/api-logs.log";
 
-    @GetMapping("/{statusCategory}")
-    public List<String> getLogsByStatus(@PathVariable String statusCategory) throws IOException {
+    @GetMapping("")
+    public List<String> getLogs(@PathVariable String statusCategory) throws IOException {
         int min, max;
         switch (statusCategory) {
             case "information": min = 100; max = 199; break;
