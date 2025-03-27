@@ -29,14 +29,20 @@ public class FilmServiceImpl implements FilmService {
 
     private final FilmRepository filmRepository;
     private final LanguageRepository languageRepository;
-
     private final RestClient restClient;
+    private final SecretKeyService secretKeyService;
 
     @Override
     public ResponseDto<List<FilmDto>> fetchFilms() {
+        String requestUrl = "/api/films";
+        String time = String.valueOf(Instant.now().getEpochSecond());
+        String token = secretKeyService.generateToken(requestUrl, time);
+
+
         FilmResponseDto response = restClient.get()
-                .uri("/api/films")
-                .header("Authorization", "Test")
+                .uri(requestUrl)
+                .header("X-Secret-Token", token)
+                .header("X-Time", time)
                 .retrieve()
                 .body(FilmResponseDto.class);
         if (response != null && "fail".equalsIgnoreCase(response.getStatus().name())) {

@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.util.ContentCachingResponseWrapper;
 
 @Component
 @WebFilter("/*") // Applies to all API requests
@@ -30,35 +32,35 @@ public class LoggingFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
+        ContentCachingRequestWrapper cachedRequestWrapper = new ContentCachingRequestWrapper(req);
+        ContentCachingResponseWrapper cachedResponseWrapper = new ContentCachingResponseWrapper(resp);
+
         // Skip logging for /favicon.ico
         if (req.getRequestURI().equals("/favicon.ico")) {
             chain.doFilter(request, response);
             return;
         }
 
-        logRequest(req);
+        chain.doFilter(cachedRequestWrapper, cachedResponseWrapper);
 
-        // Wrap response to capture the body
-        ResponseWrapper responseWrapper = new ResponseWrapper(resp);
-        chain.doFilter(request, responseWrapper);
+        logRequest(cachedRequestWrapper);
 
-        logResponse(responseWrapper);
+        logResponse(cachedResponseWrapper);
 
         // Write captured response back to client
-        byte[] responseData = responseWrapper.getCapturedData();
-        response.getOutputStream().write(responseData);
-        response.getOutputStream().flush();
+        cachedResponseWrapper.copyBodyToResponse();
     }
 
-    private void logRequest(HttpServletRequest request) throws IOException {
-        String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-        apiLogger.info("Incoming Request: {} {} | Headers: {} | Body: {}",
-                request.getMethod(), request.getRequestURI(),
-                Collections.list(request.getHeaderNames()), body);
+    private void logRequest(ContentCachingRequestWrapper request) {
+        String requestBody = getStringFromStream(request.getContentAsByteArray());
+
+        apiLogger.info("Incoming Request: {} {} | Body: {}",
+                request.getMethod(), request.getRequestURI(), requestBody);
     }
 
-    private void logResponse(ResponseWrapper responseWrapper) throws IOException {
-        String responseBody = new String(responseWrapper.getCapturedData(), StandardCharsets.UTF_8);
+
+    private void logResponse(ContentCachingResponseWrapper response) {
+        String responseBody = getStringFromStream(response.getContentAsByteArray());
 
         List<String> messages = null;
         try {
@@ -69,45 +71,13 @@ public class LoggingFilter implements Filter {
         }
 
         apiLogger.info("Outgoing Response: Status: {} | Messages: {}",
-                responseWrapper.getStatus(), messages);
+                response.getStatus(), messages);
     }
 
-    private static class ResponseWrapper extends HttpServletResponseWrapper {
-        private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        private final PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true);
-        private final ServletOutputStream servletOutputStream = new ServletOutputStream() {
-            @Override
-            public boolean isReady() {
-                return true;
-            }
-
-            @Override
-            public void setWriteListener(WriteListener listener) {
-            }
-
-            @Override
-            public void write(int b) {
-                outputStream.write(b);
-            }
-        };
-
-        public ResponseWrapper(HttpServletResponse response) {
-            super(response);
+    private String getStringFromStream(byte[] content) {
+        if (content == null || content.length == 0) {
+            return "";
         }
-
-        @Override
-        public PrintWriter getWriter() {
-            return writer;
-        }
-
-        @Override
-        public ServletOutputStream getOutputStream() {
-            return servletOutputStream;
-        }
-
-        public byte[] getCapturedData() {
-            writer.flush(); // Ensure PrintWriter data is written to ByteArrayOutputStream
-            return outputStream.toByteArray();
-        }
+        return new String(content, StandardCharsets.UTF_8);
     }
 }
