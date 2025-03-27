@@ -2,7 +2,6 @@ package com.hcmus.sakila.logging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hcmus.sakila.dto.response.ResponseDto;
-import com.hcmus.sakila.dto.response.Status;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,13 +41,9 @@ public class LoggingFilter implements Filter {
             return;
         }
 
-        UUID id = UUID.randomUUID();
-
-        cachedResponseWrapper.addHeader("Log id", id.toString());
-
         chain.doFilter(cachedRequestWrapper, cachedResponseWrapper);
 
-        logRequest(cachedRequestWrapper, id);
+        logRequest(cachedRequestWrapper);
 
         logResponse(cachedResponseWrapper);
 
@@ -57,14 +51,11 @@ public class LoggingFilter implements Filter {
         cachedResponseWrapper.copyBodyToResponse();
     }
 
-    private void logRequest(ContentCachingRequestWrapper request, UUID id) {
+    private void logRequest(ContentCachingRequestWrapper request) {
         String requestBody = getStringFromStream(request.getContentAsByteArray());
 
-        apiLogger.info("Log Id: {} | Incoming Request: {} {} | Body: {}",
-                id.toString(),
-                request.getMethod(),
-                request.getRequestURI(),
-                requestBody.replace("\n", ""));
+        apiLogger.info("Incoming Request: {} {} | Body: {}",
+                request.getMethod(), request.getRequestURI(), requestBody);
     }
 
 
@@ -72,20 +63,15 @@ public class LoggingFilter implements Filter {
         String responseBody = getStringFromStream(response.getContentAsByteArray());
 
         List<String> messages = null;
-        Status status = null;
         try {
             ResponseDto<?> responseDto = objectMapper.readValue(responseBody, ResponseDto.class);
-            status = responseDto.getStatus();
             messages = responseDto.getMessages();
         } catch (Exception e) {
             apiLogger.warn("Failed to parse response body as ResponseDto.");
         }
 
-        apiLogger.info("Log Id: {} | Outgoing Response: Status Code: {} | Status: {} | Messages: {}",
-                response.getHeader("Log Id"),
-                response.getStatus(),
-                status,
-                messages);
+        apiLogger.info("Outgoing Response: Status: {} | Messages: {}",
+                response.getStatus(), messages);
     }
 
     private String getStringFromStream(byte[] content) {
