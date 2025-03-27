@@ -1,6 +1,6 @@
 package com.hcmus.sakila.config;
 
-import com.hcmus.sakila.service.JwtService;
+import com.hcmus.sakila.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class SecurityInterceptor implements HandlerInterceptor  {
 
-    private final JwtService jwtService;
+    private final TokenService tokenService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -25,7 +25,7 @@ public class SecurityInterceptor implements HandlerInterceptor  {
             return false;
         }
         token = token.substring(7);
-        if (!jwtService.validateToken(token)) {
+        if (!tokenService.validateAccessToken(token)) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return false;
         }

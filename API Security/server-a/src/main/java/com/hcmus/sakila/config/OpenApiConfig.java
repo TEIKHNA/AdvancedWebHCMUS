@@ -1,4 +1,5 @@
 package com.hcmus.sakila.config;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
@@ -16,7 +17,7 @@ public class OpenApiConfig {
                         .version("1.0")
                         .description("API ServerA"))
                 .addSecurityItem(new SecurityRequirement().addList("BearerAuth"))
-                .components(new io.swagger.v3.oas.models.Components()
+                .components(new Components()
                         .addSecuritySchemes("BearerAuth",
                                 new SecurityScheme()
                                         .name("BearerAuth")

@@ -26,4 +26,6 @@ public class Account {
     @Column(name = "username", nullable = false, length = Integer.MAX_VALUE)
     private String username;
 
+    @Column(name = "refresh", nullable = true)
+    private String refreshToken;
 }

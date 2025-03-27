@@ -5,17 +5,23 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
-public class JwtServiceImpl implements JwtService {
-    private static final String SECRET_KEY = "ncOowqPBQ6cuFeFK+Enfhcx0GBoBR+wSgg6yzeP7hgLvc6ejHUNP2utJQuxcdm4J";
+public class TokenServiceImpl implements TokenService {
+
+    @Value("${jwt.key}")
+    private String SECRET_KEY;
+
     private static final long EXPIRATION_TIME = 60 * 60 * 1000;
 
     @Override
-    public String generateToken(String username) throws JOSEException {
+    public String generateAccessToken(String username) throws JOSEException {
         JWSSigner signer = new MACSigner(SECRET_KEY.getBytes());
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
@@ -30,7 +36,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public boolean validateToken(String token) {
+    public boolean validateAccessToken(String token) {
         try {
             SignedJWT signedJWT = SignedJWT.parse(token);
             JWSVerifier verifier = new MACVerifier(SECRET_KEY.getBytes());
@@ -39,5 +45,11 @@ public class JwtServiceImpl implements JwtService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public String generateRefreshToken(String username, String password) {
+        String token = password + username;
+        return Base64.getEncoder().encodeToString(token.getBytes());
     }
 }
