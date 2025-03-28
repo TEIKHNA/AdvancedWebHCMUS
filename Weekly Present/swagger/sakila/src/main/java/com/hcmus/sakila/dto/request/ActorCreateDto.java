@@ -1,5 +1,6 @@
 package com.hcmus.sakila.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -14,11 +15,13 @@ import lombok.Setter;
 @Setter
 public class ActorCreateDto {
 
+    @Schema(description = "First name of the actor", example = "John")
     @NotNull(message = "First name is required")
     @Size(min = 1, max = 45, message = "First name must be between 1 and 45 characters")
     @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "First name must contain only letters and spaces")
     String firstName;
 
+    @Schema(description = "Last name of the actor", example = "Doe")
     @NotNull(message = "Last name is required")
     @Size(min = 1, max = 45, message = "Last name must be between 1 and 45 characters")
     @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Last name must contain only letters and spaces")
