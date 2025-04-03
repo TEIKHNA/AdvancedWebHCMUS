@@ -1,6 +1,6 @@
 package com.hcmus.sakila.dto.response;
 
-import com.hcmus.sakila.domain.Language;
+import com.hcmus.sakila.model.Language;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

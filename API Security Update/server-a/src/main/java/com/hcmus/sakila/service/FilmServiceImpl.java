@@ -1,24 +1,22 @@
 package com.hcmus.sakila.service;
 
-import com.hcmus.sakila.domain.Film;
-import com.hcmus.sakila.domain.Language;
-import com.hcmus.sakila.domain.type.Rating;
+import com.hcmus.sakila.dto.response.*;
+import com.hcmus.sakila.model.Film;
+import com.hcmus.sakila.model.Language;
+import com.hcmus.sakila.model.type.Rating;
 import com.hcmus.sakila.dto.request.FilmCreateDto;
-import com.hcmus.sakila.dto.response.FilmResponseDto;
 import com.hcmus.sakila.dto.request.FilmUpdateDto;
-import com.hcmus.sakila.dto.response.FilmDto;
-import com.hcmus.sakila.dto.response.FilmStatisticsDto;
-import com.hcmus.sakila.dto.response.ResponseDto;
-import com.hcmus.sakila.dto.response.Status;
 import com.hcmus.sakila.repository.FilmRepository;
 import com.hcmus.sakila.repository.LanguageRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,16 +26,18 @@ import java.util.stream.Collectors;
 public class FilmServiceImpl implements FilmService {
 
     private final FilmRepository filmRepository;
+
     private final LanguageRepository languageRepository;
+
     private final RestClient restClient;
+
     private final SecretKeyService secretKeyService;
 
     @Override
-    public ResponseDto<List<FilmDto>> fetchFilms() {
+    public ApiResponseDto<List<FilmDto>> fetchFilms() {
         String requestUrl = "/api/films";
-        String time = String.valueOf(Instant.now().getEpochSecond());
-        String token = secretKeyService.generateToken(requestUrl, time);
-
+        String time = Instant.now().toString();
+        String token = secretKeyService.hash(requestUrl, time);
 
         FilmResponseDto response = restClient.get()
                 .uri(requestUrl)
@@ -45,13 +45,20 @@ public class FilmServiceImpl implements FilmService {
                 .header("X-Time", time)
                 .retrieve()
                 .body(FilmResponseDto.class);
-        if (response != null && "fail".equalsIgnoreCase(response.getStatus().name())) {
-            return new ResponseDto<>(Status.FAIL, List.of(), null);
+        if (response != null) {
+            return ApiResponseDto.<List<FilmDto>>builder()
+                    .statusCode(HttpStatus.OK.value())
+                    .generalMessage("Get films successfully!")
+                    .data(response.getData())
+                    .timestamp(LocalDateTime.now())
+                    .build();
         }
-        if (response != null && "success".equalsIgnoreCase(response.getStatus().name())) {
-            return new ResponseDto<>(Status.SUCCESS, response.getData(), null);
-        }
-        return new ResponseDto<>(Status.SUCCESS, List.of(), null);
+        return ApiResponseDto.<List<FilmDto>>builder()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+                .generalMessage("Get films successfully!")
+                .data(null)
+                .timestamp(LocalDateTime.now())
+                .build();
     }
 
     @Override

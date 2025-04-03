@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 public class RefreshTokenRequestDto {
 
-    @Schema(description = "Refresh token", example = "AAAAAA")
+    @Schema(description = "Refresh token", example = "****")
     @NotNull(message = "Refresh token required")
     String refreshToken;
 }

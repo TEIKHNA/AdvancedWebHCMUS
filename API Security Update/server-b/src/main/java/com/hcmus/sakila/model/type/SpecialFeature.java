@@ -1,4 +1,4 @@
-package com.hcmus.sakila.domain.type;
+package com.hcmus.sakila.model.type;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

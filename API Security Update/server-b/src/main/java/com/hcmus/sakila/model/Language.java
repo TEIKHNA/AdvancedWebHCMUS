@@ -1,4 +1,4 @@
-package com.hcmus.sakila.domain;
+package com.hcmus.sakila.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

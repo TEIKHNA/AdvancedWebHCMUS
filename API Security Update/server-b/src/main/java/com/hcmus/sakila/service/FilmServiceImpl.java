@@ -1,8 +1,8 @@
 package com.hcmus.sakila.service;
 
-import com.hcmus.sakila.domain.Film;
-import com.hcmus.sakila.domain.Language;
-import com.hcmus.sakila.domain.type.Rating;
+import com.hcmus.sakila.model.Film;
+import com.hcmus.sakila.model.Language;
+import com.hcmus.sakila.model.type.Rating;
 import com.hcmus.sakila.dto.request.FilmCreateDto;
 import com.hcmus.sakila.dto.request.FilmUpdateDto;
 import com.hcmus.sakila.dto.response.FilmDto;
@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class FilmServiceImpl implements FilmService {
 
     private final FilmRepository filmRepository;
+
     private final LanguageRepository languageRepository;
 
     @Override

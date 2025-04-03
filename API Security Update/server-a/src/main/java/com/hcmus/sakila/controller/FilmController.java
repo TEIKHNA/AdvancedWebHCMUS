@@ -1,6 +1,7 @@
 package com.hcmus.sakila.controller;
 
-import com.hcmus.sakila.domain.type.Rating;
+import com.hcmus.sakila.dto.response.ApiResponseDto;
+import com.hcmus.sakila.model.type.Rating;
 import com.hcmus.sakila.dto.request.FilmCreateDto;
 import com.hcmus.sakila.dto.request.FilmUpdateDto;
 import com.hcmus.sakila.dto.response.FilmDto;
@@ -26,8 +27,8 @@ public class FilmController {
     @Operation(tags = "[5th Week] Security API - Server A", summary = "Retrieve all films",
             description = "Retrieve all films.")
     @GetMapping
-    public ResponseEntity<ResponseDto<List<FilmDto>>> getFilmsList() {
-        ResponseDto<List<FilmDto>> response = filmService.fetchFilms();
+    public ResponseEntity<ApiResponseDto<List<FilmDto>>> getFilmsList() {
+        ApiResponseDto<List<FilmDto>> response = filmService.fetchFilms();
         return ResponseEntity.ok(response);
     }
 

@@ -1,6 +1,7 @@
 package com.hcmus.sakila.service;
 
-import com.hcmus.sakila.domain.type.Rating;
+import com.hcmus.sakila.dto.response.ApiResponseDto;
+import com.hcmus.sakila.model.type.Rating;
 import com.hcmus.sakila.dto.request.FilmCreateDto;
 import com.hcmus.sakila.dto.request.FilmUpdateDto;
 import com.hcmus.sakila.dto.response.FilmDto;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public interface FilmService {
 
-    ResponseDto<List<FilmDto>> fetchFilms();
+    ApiResponseDto<List<FilmDto>> fetchFilms();
 
     ResponseDto<List<FilmDto>> getFilmsByRating(Rating rating, Integer number, Integer page);
 

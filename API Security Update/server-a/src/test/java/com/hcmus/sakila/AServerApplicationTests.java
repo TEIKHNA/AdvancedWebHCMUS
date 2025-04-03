@@ -1,7 +1,7 @@
 package com.hcmus.sakila;
 
-import com.hcmus.sakila.domain.Film;
-import com.hcmus.sakila.domain.type.SpecialFeature;
+import com.hcmus.sakila.model.Film;
+import com.hcmus.sakila.model.type.SpecialFeature;
 import com.hcmus.sakila.repository.FilmRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

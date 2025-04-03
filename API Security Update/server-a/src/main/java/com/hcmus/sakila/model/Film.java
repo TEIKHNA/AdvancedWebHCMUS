@@ -1,9 +1,9 @@
-package com.hcmus.sakila.domain;
+package com.hcmus.sakila.model;
 
-import com.hcmus.sakila.domain.converter.RatingConverter;
-import com.hcmus.sakila.domain.converter.SpecialFeatureConverter;
-import com.hcmus.sakila.domain.type.Rating;
-import com.hcmus.sakila.domain.type.SpecialFeature;
+import com.hcmus.sakila.model.converter.RatingConverter;
+import com.hcmus.sakila.model.converter.SpecialFeatureConverter;
+import com.hcmus.sakila.model.type.Rating;
+import com.hcmus.sakila.model.type.SpecialFeature;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

@@ -1,7 +1,7 @@
 package com.hcmus.sakila.dto.request;
 
-import com.hcmus.sakila.domain.type.Rating;
-import com.hcmus.sakila.domain.type.SpecialFeature;
+import com.hcmus.sakila.model.type.Rating;
+import com.hcmus.sakila.model.type.SpecialFeature;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

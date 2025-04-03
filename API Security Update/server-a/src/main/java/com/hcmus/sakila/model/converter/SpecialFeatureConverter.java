@@ -1,6 +1,6 @@
-package com.hcmus.sakila.domain.converter;
+package com.hcmus.sakila.model.converter;
 
-import com.hcmus.sakila.domain.type.SpecialFeature;
+import com.hcmus.sakila.model.type.SpecialFeature;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

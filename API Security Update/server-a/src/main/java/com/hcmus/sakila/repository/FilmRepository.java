@@ -1,7 +1,7 @@
 package com.hcmus.sakila.repository;
 
-import com.hcmus.sakila.domain.Film;
-import com.hcmus.sakila.domain.Language;
+import com.hcmus.sakila.model.Film;
+import com.hcmus.sakila.model.Language;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,19 +1,15 @@
 package com.hcmus.sakila.service;
 
-import com.hcmus.sakila.dto.request.ActorCreateDto;
-import com.hcmus.sakila.dto.request.ActorUpdateDto;
-import com.hcmus.sakila.dto.request.LoginRequestDto;
-import com.hcmus.sakila.dto.request.RefreshTokenRequestDto;
-import com.hcmus.sakila.dto.response.ActorDto;
-import com.hcmus.sakila.dto.response.LoginResponseDto;
-import com.hcmus.sakila.dto.response.RefreshTokenResponseDto;
-import com.hcmus.sakila.dto.response.ResponseDto;
+import com.hcmus.sakila.dto.request.*;
+import com.hcmus.sakila.dto.response.*;
 
 import java.util.List;
 
 public interface AuthService {
 
-    ResponseDto<LoginResponseDto> login(LoginRequestDto loginRequestDto);
+    ApiResponseDto<LoginResponseDto> login(LoginRequestDto loginRequestDto);
 
-    ResponseDto<RefreshTokenResponseDto> refreshToken(RefreshTokenRequestDto refreshTokenRequestDto);
+    ApiResponseDto<?> register(RegisterRequestDto registerRequestDto);
+
+    ApiResponseDto<RefreshTokenResponseDto> refreshToken(RefreshTokenRequestDto refreshTokenRequestDto);
 }

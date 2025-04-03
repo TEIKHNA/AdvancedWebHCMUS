@@ -1,6 +1,6 @@
 package com.hcmus.sakila.service;
 
-import com.hcmus.sakila.domain.Actor;
+import com.hcmus.sakila.model.Actor;
 import com.hcmus.sakila.dto.request.ActorCreateDto;
 import com.hcmus.sakila.dto.request.ActorUpdateDto;
 import com.hcmus.sakila.dto.response.ActorDto;

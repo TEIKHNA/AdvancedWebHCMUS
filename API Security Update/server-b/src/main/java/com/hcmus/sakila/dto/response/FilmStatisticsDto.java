@@ -1,6 +1,6 @@
 package com.hcmus.sakila.dto.response;
 
-import com.hcmus.sakila.domain.type.Rating;
+import com.hcmus.sakila.model.type.Rating;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
