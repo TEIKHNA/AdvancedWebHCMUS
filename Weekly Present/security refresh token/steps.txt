@@ -1,0 +1,25 @@
+** Bước 5
+RefreshTokenRequestDto
++ refreshToken
+
+RefreshTokenResponseDto
++ accessToken
+
+RefreshToken (model)
++ 4 field (Account user one to one)
+
+RefreshTokenRepository
++ findByUser (account) -> login
++ findByToken (token) -> refresh
+
+AuthService
++ Hàm lấy refreshToken
+
+AuthController
++ Hàm lấy refreshToken
+
+AuthServiceImpl
++ getRefreshToken (từ account id): và save db
++ refreshToken (cho auth controller): generate access token (get refresh -> get User -> generate)
++ login: get refresh token và gán vào response
+
