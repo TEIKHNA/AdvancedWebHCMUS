@@ -17,6 +17,7 @@ import org.springframework.web.client.RestClient;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,7 +37,7 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public ApiResponseDto<List<FilmDto>> fetchFilms() {
         String requestUrl = "/api/films";
-        String time = Instant.now().toString();
+        String time = LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")).toString();
         String token = secretKeyService.hash(requestUrl, time);
 
         FilmResponseDto response = restClient.get()

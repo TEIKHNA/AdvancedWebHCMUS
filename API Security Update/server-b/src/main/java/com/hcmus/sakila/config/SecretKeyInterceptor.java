@@ -11,6 +11,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Date;
@@ -30,8 +33,8 @@ public class SecretKeyInterceptor implements HandlerInterceptor {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
-        Instant expiredTime = Instant.parse(time).plus(1, ChronoUnit.MINUTES);
-        if (expiredTime.isBefore(Instant.now())) {
+        LocalDateTime expiredTime = LocalDateTime.parse(time).plusMinutes(1);
+        if (expiredTime.isBefore(ChronoLocalDateTime.from(LocalDateTime.now().atZone(ZoneId.of("Asia/Ho_Chi_Minh"))))) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
