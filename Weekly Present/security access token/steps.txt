@@ -1,0 +1,73 @@
+** Bước 2:
+pom.xml
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+
+.env
++ JWT_SECRET_KEY=ncOowqPBQ6cuFeFK+Enfhcx0GBoBR+wSgg6yzeP7hgLvc6ejHUNP2utJQuxcdm4J
+
+application.properties
++ security-custom.jwt.secret-key=${JWT_SECRET_KEY}
++ security-custom.jwt.expiration-time=3600000
+
+JwtService
++ String generateAccessToken(Account account);
++ boolean validateAccessToken(String token);
++ String extractRole(String token);
++ String extractUsername(String token);
+
+AuthServiceImpl
++ login: UsernamePasswordAuthenticationToken
+
+GlobalExceptionHandler
++ handleBadCredentialsException
++ handleUsernameNotFoundException
+
+JwtAuthenticationFilter
++ doFilter
+
+SecurityConfig
++ chainConfig
+
+Account implements UserDetails  
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }	
+
+LoginResponseDto
++ accessToken
++ refreshToken
+
+AuthService & AuthServiceImpl
++ login: generate token
++ register
+
+AccountService implements UserDetailsService
+
+
