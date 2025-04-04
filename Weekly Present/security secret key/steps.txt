@@ -1,0 +1,30 @@
+** Bước 3
+SecretKeyInterceptor implements HandlerInterceptor
++ preHandle (get from header)
++ String hash(String apiPath, String time, String secretKey)
+
+WebConfig implements WebMvcConfigurer
++ void addInterceptors(InterceptorRegistry registry)
+
+application.properties
++ security.secret-key=${SECRET_KEY}
+
+.env
++ SECRET_KEY=3f5e8b2c9d1a4e7f6b0a2d8c1e9f4b7a (random)
+
+
+** Bước 4
+.env
++ SECRET_KEY=3f5e8b2c9d1a4e7f6b0a2d8c1e9f4b7a (random)
+
+application.properties
++ security.secret-key=${SECRET_KEY}
+
+SecretKeyService
++ String hash(String path, String time);
+
+SecretKeyServiceImpl
++ String hash(String path, String time);
+
+FilmServiceImpl
++ fetchFilms: time (Instant.now().toString()) , token, .header (X-Secret-Token, X-Time)

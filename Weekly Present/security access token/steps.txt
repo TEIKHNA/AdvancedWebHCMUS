@@ -1,0 +1,24 @@
+** Bước 2:
+TokenService
++ generateAccessToken (username)
++ validateAccessToken (password)
+
+TokenServiceImpl
+
+SecurityInterceptor implements HandlerInterceptor  
++ preHandle()
+
+WebConfig implements WebMvcConfigurer
++ addInterceptors()
+
+LoginResponseDto
++ accessToken()
++ refreshToken()
+
+AuthService
++ login
+
+AuthServiceImpl
++ login: generate token
+
+
