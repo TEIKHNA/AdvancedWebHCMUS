@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AuthService {
 
-    ApiResponseDto<LoginResponseDto> login(LoginRequestDto loginRequestDto);
+    ApiResponseDto<?> login(LoginRequestDto loginRequestDto);
 
     ApiResponseDto<?> register(RegisterRequestDto registerRequestDto);
 }

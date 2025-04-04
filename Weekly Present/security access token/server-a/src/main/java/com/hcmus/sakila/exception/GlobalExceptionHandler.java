@@ -5,8 +5,6 @@ import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -33,27 +31,27 @@ public class GlobalExceptionHandler {
         return ResponseEntity.ok(response);
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ApiResponseDto<?>> handleBadCredentialsException(BadCredentialsException e) {
-        ApiResponseDto<?> response = ApiResponseDto.builder()
-                .statusCode(HttpStatus.UNAUTHORIZED.value())
-                .generalMessage("Bad credentials exception!")
-                .errorDetails(List.of(e.getMessage()))
-                .timestamp(LocalDateTime.now())
-                .build();
-        return ResponseEntity.ok(response);
-    }
+//    @ExceptionHandler(BadCredentialsException.class)
+//    public ResponseEntity<ApiResponseDto<?>> handleBadCredentialsException(BadCredentialsException e) {
+//        ApiResponseDto<?> response = ApiResponseDto.builder()
+//                .statusCode(HttpStatus.UNAUTHORIZED.value())
+//                .generalMessage("Bad credentials exception!")
+//                .errorDetails(List.of(e.getMessage()))
+//                .timestamp(LocalDateTime.now())
+//                .build();
+//        return ResponseEntity.ok(response);
+//    }
 
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ApiResponseDto<?>> handleBadCredentialsException(UsernameNotFoundException e) {
-        ApiResponseDto<?> response = ApiResponseDto.builder()
-                .statusCode(HttpStatus.UNAUTHORIZED.value())
-                .generalMessage("Username not found!")
-                .errorDetails(List.of(e.getMessage()))
-                .timestamp(LocalDateTime.now())
-                .build();
-        return ResponseEntity.ok(response);
-    }
+//    @ExceptionHandler(UsernameNotFoundException.class)
+//    public ResponseEntity<ApiResponseDto<?>> handleUsernameNotFoundException(UsernameNotFoundException e) {
+//        ApiResponseDto<?> response = ApiResponseDto.builder()
+//                .statusCode(HttpStatus.UNAUTHORIZED.value())
+//                .generalMessage("Username not found!")
+//                .errorDetails(List.of(e.getMessage()))
+//                .timestamp(LocalDateTime.now())
+//                .build();
+//        return ResponseEntity.ok(response);
+//    }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiResponseDto<?>> handleTypeMismatchException(MethodArgumentTypeMismatchException e) {

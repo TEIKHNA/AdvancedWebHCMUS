@@ -22,8 +22,8 @@ public class AuthController {
     @Operation(tags = "[5th Week] Security API - Server A", summary = "Login account",
             description = "Login with account to get token.")
     @PostMapping("/login")
-    public ResponseEntity<ApiResponseDto<LoginResponseDto>> login(@Valid @RequestBody LoginRequestDto loginRequestDto)  {
-        ApiResponseDto<LoginResponseDto> responseDto = authService.login(loginRequestDto);
+    public ResponseEntity<ApiResponseDto<?>> login(@Valid @RequestBody LoginRequestDto loginRequestDto)  {
+        ApiResponseDto<?> responseDto = authService.login(loginRequestDto);
         return ResponseEntity.ok(responseDto);
     }
 

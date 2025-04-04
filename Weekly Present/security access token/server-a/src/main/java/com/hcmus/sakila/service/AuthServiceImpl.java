@@ -9,11 +9,6 @@ import com.hcmus.sakila.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,50 +20,41 @@ public class AuthServiceImpl implements AuthService {
 
     private final AccountRepository accountRepository;
 
-    private final PasswordEncoder passwordEncoder;
-
-    private final AuthenticationManager authenticationManager;
-
-    private final JwtService jwtService;
-
     @Override
-    public ApiResponseDto<LoginResponseDto> login(LoginRequestDto loginRequestDto) {
+    public ApiResponseDto<?> login(LoginRequestDto loginRequestDto) {
 
         String username = loginRequestDto.getUsername();
         String password = loginRequestDto.getPassword();
 
-        try {
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
-            Authentication authentication = authenticationManager.authenticate(authToken);
+        Account account = accountRepository.findByUsername(username)
+                .orElse(null);
 
-            if (authentication.isAuthenticated()) {
-                Account account = accountRepository.findByUsername(username).orElse(null);
-                String accessToken = jwtService.generateAccessToken(account);
-                LoginResponseDto responseDto = new LoginResponseDto();
-                responseDto.setAccessToken(accessToken);
+        // check password
 
-                return ApiResponseDto.<LoginResponseDto>builder()
-                        .statusCode(HttpStatus.OK.value())
-                        .generalMessage("Login successfully!")
-                        .data(responseDto)
-                        .timestamp(LocalDateTime.now())
-                        .build();
-            }
-        } catch (RuntimeException e) {
-            log.info("Error login " + e.getMessage());
+        if (account == null && !account.getPassword().equals(password)) {// && password not valid
+            return ApiResponseDto.<LoginResponseDto>builder()
+                    .statusCode(HttpStatus.UNAUTHORIZED.value())
+                    .generalMessage("Username or password is incorrect!")
+                    .timestamp(LocalDateTime.now())
+                    .build();
         }
-        throw new BadCredentialsException("Invalid username or password");
+
+        return ApiResponseDto.<LoginResponseDto>builder()
+                .statusCode(HttpStatus.OK.value())
+                .generalMessage("Login successfully!")
+                .timestamp(LocalDateTime.now())
+                .build();
     }
 
     @Override
     public ApiResponseDto<?> register(RegisterRequestDto registerRequestDto) {
         if (accountRepository.existsByUsername(registerRequestDto.getUsername())) {
-            throw new BadCredentialsException(String.format("Username %s already exists", registerRequestDto.getUsername()));
+            throw new RuntimeException(String.format("Username %s already exists", registerRequestDto.getUsername()));
         }
 
         Account account = new Account();
         account.setUsername(registerRequestDto.getUsername());
-        account.setPassword(passwordEncoder.encode(registerRequestDto.getPassword()));
+        account.setPassword(registerRequestDto.getPassword());
 
         accountRepository.save(account);
         return ApiResponseDto.builder()
