@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <div id="alert-box" class="alert alert-success alert-dismissible fade show d-none" role="alert">
+            <span id="alert-message"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Last Update</th>
+                </tr>
+            </thead>
+            <tbody id="actor-body">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+
+
+        function notify(firstName, lastName) {
+            $('#alert-message').text(`Đã thêm actor mới: ${firstName} ${lastName}`);
+            $('#alert-box').removeClass('d-none');
+
+            setTimeout(() => {
+                $('#alert-box').addClass('d-none');
+            }, 10000);
+        }
+
+        function displayActor(actor) {
+            const row = `
+                <tr>
+                    <th scope="row">${actor.id}</th>
+                    <td>${actor.firstName}</td>
+                    <td>${actor.lastName}</td>
+                    <td>${new Date(actor.lastUpdate).toLocaleString()}</td>
+                </tr>
+            `;
+            $('#actor-body').append(row);
+        }
+
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://localhost:8080/api/actor',
+                method: 'GET',
+                success: function (data) {
+                    const actors = data['data'];
+                    actors.forEach(displayActor);
+                },
+                error: function (err) {
+                    console.error('Lỗi khi lấy dữ liệu:', err);
+                }
+            });
+
+            const socket = new SockJS('http://localhost:8080/ws');
+            const stompClient = Stomp.over(socket);
+            stompClient.connect({}, function () {
+                stompClient.subscribe('/topic/actors', function (message) {
+                    const actor = JSON.parse(message.body);
+                    displayActor(actor);
+                    notify(actor.firstName, actor.lastName);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
