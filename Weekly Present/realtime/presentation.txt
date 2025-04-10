@@ -1,0 +1,21 @@
+
+
+
+Bên backend, Thêm 
+@CrossOrigin(origins = "http://127.0.0.1:5500")
+ 
+
+
+Bakcend : 
+Thêm dependency websocket 
+
+
+file config 
+WebSocketConfig implements WebSocketMessageBrokerConfigurer
+
+Override 2 Phuong thuc Configur Message broker and registerStompEndpoints 
+ 
+Tạo SimpMesseing  trong service hoặc controller 
+
+
+simple broker /topic 
