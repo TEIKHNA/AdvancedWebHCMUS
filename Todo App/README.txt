@@ -11,5 +11,5 @@
 TaskList.tsx:
     interface Task,TaskListProps
     function TaskList({tasks, onToggle}: TaskListProps) - task-item:task-id,task-title, task-checkbox
-App.css : 
-    
+App.css : .task-list .task-item .task-text .task-id
+2. Add task

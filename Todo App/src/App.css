@@ -16,8 +16,6 @@
 
 .task-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
   text-align: left;
 }
 
@@ -37,18 +35,8 @@
   color: #888;
 }
 
-.task-checkbox {
-  margin-right: 0.8rem;
-  width: 1.2rem;
-  height: 1.2rem;
-  cursor: pointer;
-}
-
 .task-id {
-  background-color: #f0f0f0;
   margin-right: 0.8rem;
-  min-width: 2rem;
-  text-align: center;
 }
 
 .task-text {
@@ -56,10 +44,33 @@
   font-size: 1rem;
 }
 
-.task-status {
-  font-size: 0.8rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  margin-left: 0.8rem;
+.add-task {
+  display: flex;
+  margin-bottom: 1.5rem;
 }
+
+.add-task input {
+  flex: 1;
+  padding: 0.8rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+  font-size: 1rem;
+  color: #000;
+}
+
+.add-task button {
+  padding: 0.8rem 1.5rem;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.add-task button:hover {
+  background-color: #535bf2;
+}
+
 
