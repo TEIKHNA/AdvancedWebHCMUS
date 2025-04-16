@@ -73,4 +73,18 @@
   background-color: #535bf2;
 }
 
+.filter-container {
+  margin-bottom: 1.5rem;
+  
+}
+
+.filter-input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #fff;
+  color:#000;
+}
 

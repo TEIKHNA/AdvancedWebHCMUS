@@ -13,6 +13,7 @@ function App() {
     { id: 3, title: "Go for a run", isCompleted: false },
   ])
   const [newTaskText, setNewTaskText] = useState("")
+  const [filterTitle, setFilterTitle] = useState("")
   const toggleTaskCompletion = (id: number) => {
     setTasks(tasks.map((task) => (task.id === id ? { ...task, isCompleted: !task.isCompleted } : task)))
   }
@@ -31,6 +32,7 @@ function App() {
     e.preventDefault()
     addTask()
   }
+  const filteredTasks = tasks.filter((task) => task.title.toLowerCase().includes(filterTitle.toLowerCase()))
   return (
     <div className="todo-app">
       <h1>Todo App</h1>
@@ -43,7 +45,16 @@ function App() {
         />
         <button type="submit">Add</button>
       </form>
-      <TaskList tasks={tasks} onToggle={toggleTaskCompletion} />
+      <div className="filter-container">
+        <input
+          type="text"
+          value={filterTitle}
+          onChange={(e) => setFilterTitle(e.target.value)}
+          placeholder="Filter tasks by title..."
+          className="filter-input"
+        />
+      </div>
+      <TaskList tasks={filteredTasks} onToggle={toggleTaskCompletion} />
     </div>
   )
 }
