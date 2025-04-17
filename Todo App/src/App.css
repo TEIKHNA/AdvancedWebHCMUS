@@ -50,6 +50,7 @@
 }
 
 .add-task input {
+  
   flex: 1;
   padding: 0.8rem;
   background-color: #fff;
@@ -79,7 +80,7 @@
 }
 
 .filter-input {
-  width: 100%;
+  width: 90%;
   padding: 0.8rem;
   border: 1px solid #ddd;
   border-radius: 4px;
