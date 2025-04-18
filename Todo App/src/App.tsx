@@ -1,38 +1,23 @@
-import { useState } from 'react'
-import './App.css'
-import TaskList from './TaskList'
-interface Task {
-  id: number
-  title: string
-  isCompleted: boolean
-}
+import './App.css';
+import TaskList from './TaskList';
+import { useTasks } from './useTasks';
+
 function App() {
-  const [tasks, setTasks] = useState<Task[]>([
-    { id: 1, title: "Complete project proposal", isCompleted: false },
-    { id: 2, title: "Buy groceries", isCompleted: true },
-    { id: 3, title: "Go for a run", isCompleted: false },
-  ])
-  const [newTaskText, setNewTaskText] = useState("")
-  const [filterTitle, setFilterTitle] = useState("")
-  const toggleTaskCompletion = (id: number) => {
-    setTasks(tasks.map((task) => (task.id === id ? { ...task, isCompleted: !task.isCompleted } : task)))
-  }
-  const addTask = () => {
-    if (newTaskText.trim() !== "") {
-      const newTask: Task = {
-        id: tasks.length > 0 ? Math.max(...tasks.map((task) => task.id)) + 1 : 1,
-        title: newTaskText,
-        isCompleted: false,
-      }
-      setTasks([...tasks, newTask])
-      setNewTaskText("") // Clear input after adding
-    }
-  }
+  const {
+    filteredTasks,
+    newTaskText,
+    setNewTaskText,
+    filterTitle,
+    setFilterTitle,
+    toggleTaskCompletion,
+    addTask,
+  } = useTasks();
+
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    addTask()
-  }
-  const filteredTasks = tasks.filter((task) => task.title.toLowerCase().includes(filterTitle.toLowerCase()))
+    e.preventDefault();
+    addTask();
+  };
+
   return (
     <div className="todo-app">
       <h1>Todo App</h1>
@@ -56,7 +41,7 @@ function App() {
       </div>
       <TaskList tasks={filteredTasks} onToggle={toggleTaskCompletion} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
