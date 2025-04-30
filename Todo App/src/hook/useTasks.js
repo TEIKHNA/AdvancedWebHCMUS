@@ -1,13 +1,7 @@
 import { useState } from 'react';
 
-export interface Task {
-  id: number;
-  title: string;
-  isCompleted: boolean;
-}
-
 export const useTasks = () => {
-  const [tasks, setTasks] = useState<Task[]>([
+  const [tasks, setTasks] = useState([
     { id: 1, title: "Complete project proposal", isCompleted: false },
     { id: 2, title: "Buy groceries", isCompleted: true },
     { id: 3, title: "Go for a run", isCompleted: false },
@@ -16,13 +10,13 @@ export const useTasks = () => {
   const [newTaskText, setNewTaskText] = useState("");
   const [filterTitle, setFilterTitle] = useState("");
 
-  const toggleTaskCompletion = (id: number) => {
+  const toggleTaskCompletion = (id) => {
     setTasks(tasks.map((task) => (task.id === id ? { ...task, isCompleted: !task.isCompleted } : task)));
   };
 
   const addTask = () => {
     if (newTaskText.trim() !== "") {
-      const newTask: Task = {
+      const newTask = {
         id: tasks.length > 0 ? Math.max(...tasks.map((task) => task.id)) + 1 : 1,
         title: newTaskText,
         isCompleted: false,
