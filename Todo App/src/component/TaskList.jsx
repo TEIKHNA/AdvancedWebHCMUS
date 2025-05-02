@@ -1,4 +1,4 @@
-function TaskList({ tasks, onToggle }) {
+function TaskList({ tasks, onToggleTask }) {
     return (
         <ul className="task-list">
             {tasks.map((task) => {
@@ -10,7 +10,7 @@ function TaskList({ tasks, onToggle }) {
                             type="checkbox"
                             className="task-checkbox"
                             checked={task.isCompleted}
-                            onChange={() => onToggle(task.id)}
+                            onChange={() => onToggleTask(task.id)}
                         />
                     </li>
                 );

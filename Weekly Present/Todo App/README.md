@@ -18,3 +18,4 @@ If you are developing a production application, we recommend using TypeScript wi
    npm run dev
 2. V1: Components: TaskList, FilterTask, AddTask
    Hooks: useTask
+3. V2 useContext useReducer for one-way data flow

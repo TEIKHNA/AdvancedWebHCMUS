@@ -10,8 +10,8 @@ import { useTasks } from './hook/useTasks';
 function App() {
   const {
     filteredTasks,
-    newTaskText,
-    setNewTaskText,
+    newTaskTitle,
+    setNewTaskTitle,
     filterTitle,
     setFilterTitle,
     toggleTaskCompletion,
@@ -27,15 +27,15 @@ function App() {
     <div className="todo-app">
       <h1>Todo App</h1>
       <AddTask
-        newTaskText={newTaskText}
-        setNewTaskText={setNewTaskText}
+        newTaskTitle={newTaskTitle}
+        setNewTaskTitle={setNewTaskTitle}
         handleSubmit={handleSubmit}
       />
       <FilterTask
         filterTitle={filterTitle}
         setFilterTitle={setFilterTitle}
       />
-      <TaskList tasks={filteredTasks} onToggle={toggleTaskCompletion} />
+      <TaskList tasks={filteredTasks} onToggleTask={toggleTaskCompletion} />
     </div>
   );
 }

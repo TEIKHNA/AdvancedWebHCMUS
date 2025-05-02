@@ -7,7 +7,7 @@ export const useTasks = () => {
     { id: 3, title: "Go for a run", isCompleted: false },
   ]);
 
-  const [newTaskText, setNewTaskText] = useState("");
+  const [newTaskTitle, setNewTaskTitle] = useState("");
   const [filterTitle, setFilterTitle] = useState("");
 
   const toggleTaskCompletion = (id) => {
@@ -15,14 +15,14 @@ export const useTasks = () => {
   };
 
   const addTask = () => {
-    if (newTaskText.trim() !== "") {
+    if (newTaskTitle.trim() !== "") {
       const newTask = {
         id: tasks.length > 0 ? Math.max(...tasks.map((task) => task.id)) + 1 : 1,
-        title: newTaskText,
+        title: newTaskTitle,
         isCompleted: false,
       };
       setTasks([...tasks, newTask]);
-      setNewTaskText(""); // Clear input after adding
+      setNewTaskTitle(""); // Clear input after adding
     }
   };
 
@@ -33,8 +33,8 @@ export const useTasks = () => {
   return {
     tasks,
     filteredTasks,
-    newTaskText,
-    setNewTaskText,
+    newTaskTitle,
+    setNewTaskTitle,
     filterTitle,
     setFilterTitle,
     toggleTaskCompletion,
