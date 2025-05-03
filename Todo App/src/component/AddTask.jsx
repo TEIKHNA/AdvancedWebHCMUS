@@ -1,4 +1,4 @@
-function AddTask({ newTaskTitle, setNewTaskTitle, handleSubmit }) {
+function AddTask({ newTaskTitle = "", setNewTaskTitle, handleSubmit }) {
   return (
     <form onSubmit={handleSubmit} className="add-task">
       <input

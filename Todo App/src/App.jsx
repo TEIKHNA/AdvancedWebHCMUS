@@ -1,41 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import './App.css';
 import TaskList from './component/TaskList';
 import AddTask from './component/AddTask';
 import FilterTask from './component/FilterTask';
-import { useTasks } from './hook/useTasks';
+import { useTaskContext } from './context/TaskContext';
 
 function App() {
-  const {
-    filteredTasks,
-    newTaskTitle,
-    setNewTaskTitle,
-    filterTitle,
-    setFilterTitle,
-    toggleTaskCompletion,
-    addTask,
-  } = useTasks();
+  const { state, dispatch } = useTaskContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addTask();
+    if (state.newTaskTitle.trim() !== "") {
+      dispatch({ type: "ADD_TASK", payload: state.newTaskTitle });
+    }
   };
+
+  const handleToggleTask = (taskId) => {
+    dispatch({ type: "TOGGLE_TASK", payload: taskId });
+  };
+
+  const handleSetNewTaskTitle = (title) => {
+    dispatch({ type: "SET_NEW_TASK_TITLE", payload: title });
+  };
+
+  const handleSetFilterTitle = (title) => {
+    dispatch({ type: "SET_FILTER_TITLE", payload: title });
+  };
+
+  const filteredTasks = state.tasks.filter((task) =>
+    task.title.toLowerCase().includes(state.filterTitle.toLowerCase())
+  );
+
+  if (state.loading) {
+    return <div className="loading">Loading...</div>; // Render loading spinner
+  }
 
   return (
     <div className="todo-app">
       <h1>Todo App</h1>
       <AddTask
-        newTaskTitle={newTaskTitle}
-        setNewTaskTitle={setNewTaskTitle}
+        newTaskTitle={state.newTaskTitle}
+        setNewTaskTitle={handleSetNewTaskTitle}
         handleSubmit={handleSubmit}
       />
       <FilterTask
-        filterTitle={filterTitle}
-        setFilterTitle={setFilterTitle}
+        filterTitle={state.filterTitle}
+        setFilterTitle={handleSetFilterTitle}
       />
-      <TaskList tasks={filteredTasks} onToggleTask={toggleTaskCompletion} />
+      <TaskList tasks={filteredTasks} onToggleTask={handleToggleTask} />
     </div>
   );
 }
