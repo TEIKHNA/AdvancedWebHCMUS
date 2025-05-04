@@ -1,37 +1,19 @@
-import React, { createContext, useReducer, useContext, useEffect } from 'react';
-import { fetchTasksFromAPI, addTaskToAPI, updateTaskInAPI } from '../service/taskService';
+import React, { createContext, useReducer, useContext } from 'react';
+
 const initialState = {
-  tasks: [],
+  tasks: [
+    { id: 1, title: "Complete project proposal", isCompleted: false },
+    { id: 2, title: "Review team feedback", isCompleted: true },
+    { id: 3, title: "Prepare presentation slides", isCompleted: false },
+  ],
   newTaskTitle: "",
   filterTitle: "",
-  loading: true,
-};
-
-const fetchTasks = async (dispatch) => {
-  try {
-    dispatch({ type: "SET_LOADING", payload: true });
-
-    const tasks = await fetchTasksFromAPI();
-
-    // Delay fetch loading 
-    setTimeout(() => {
-      dispatch({ type: "SET_TASKS", payload: tasks });
-    }, 1000);
-  } catch (error) {
-    alert(error.message);
-    dispatch({ type: "SET_LOADING", payload: false });
-  }
 };
 
 const taskReducer = (state, action) => {
   switch (action.type) {
     case "SET_TASKS":
-      const tasksWithMappedFields = action.payload.map((task) => ({
-        ...task,
-        isCompleted: task.completed, // Map `completed` from the database to `isCompleted`
-      }));
-
-      return { ...state, tasks: tasksWithMappedFields, loading: false };
+      return { ...state, tasks: action.payload, loading: false };
 
     case "ADD_TASK":
       if (action.payload.trim() === "") return state;
@@ -42,8 +24,6 @@ const taskReducer = (state, action) => {
         isCompleted: false,
       };
 
-      addTaskToAPI(newTask).catch((error) => alert(error.message));
-
       return {
         ...state,
         tasks: [...state.tasks, newTask],
@@ -53,12 +33,7 @@ const taskReducer = (state, action) => {
     case "TOGGLE_TASK":
       const updatedTasks = state.tasks.map((task) => {
         if (task.id === action.payload) {
-          const updatedTask = { ...task, isCompleted: !task.isCompleted };
-          updateTaskInAPI(task.id, {
-            title: updatedTask.title,
-            completed: updatedTask.isCompleted,
-          }).catch((error) => alert(error.message));
-          return updatedTask;
+          return { ...task, isCompleted: !task.isCompleted };
         }
         return task;
       });
@@ -86,17 +61,12 @@ const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
-
-  useEffect(() => {
-    fetchTasks(dispatch);
-  }, []);
-
   return (
     <TaskContext.Provider value={{ state, dispatch }}>
       {children}
     </TaskContext.Provider>
   );
-};
+}; 
 
 export const useTaskContext = () => {
   return useContext(TaskContext);

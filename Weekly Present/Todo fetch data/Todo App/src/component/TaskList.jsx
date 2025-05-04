@@ -1,16 +1,4 @@
-import { useTaskContext } from '../context/TaskContext';
-
 function TaskList({ tasks, onToggleTask }) {
-  const { state } = useTaskContext(); // Access the `loading` state from context
-
-  if (state.loading) {
-    return (
-      <div className="task-list-loading">
-        <div className="spinner"></div>
-      </div>
-    );
-  }
-
   return (
     <ul className="task-list">
       {tasks.map((task) => (
