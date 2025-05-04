@@ -26,7 +26,12 @@ const fetchTasks = async (dispatch) => {
 const taskReducer = (state, action) => {
   switch (action.type) {
     case "SET_TASKS":
-      return { ...state, tasks: action.payload, loading: false };
+      const tasksWithMappedFields = action.payload.map((task) => ({
+        ...task,
+        isCompleted: task.completed, // Map `completed` from the database to `isCompleted`
+      }));
+
+      return { ...state, tasks: tasksWithMappedFields, loading: false };
 
     case "ADD_TASK":
       if (action.payload.trim() === "") return state;
