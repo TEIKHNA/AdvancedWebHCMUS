@@ -11,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TaskDto {
     private String title;
-    private Boolean completed;
+    private Boolean isCompleted;
     private Integer ordinalNumber;
 }
