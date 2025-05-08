@@ -1,19 +1,16 @@
 package com.example.demo.task.controller;
 
-import java.util.List;
-import java.util.UUID;
-
 import com.example.demo.task.dto.DeleteTaskResponseDto;
+import com.example.demo.task.dto.TaskDto;
+import com.example.demo.task.dto.TaskResponseDto;
+import com.example.demo.task.service.TaskService;
 import com.example.demo.user.service.JwtService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.task.dto.TaskResponseDto;
-import com.example.demo.task.dto.TaskDto;
-import com.example.demo.task.service.TaskService;
-
-import lombok.AllArgsConstructor;
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor

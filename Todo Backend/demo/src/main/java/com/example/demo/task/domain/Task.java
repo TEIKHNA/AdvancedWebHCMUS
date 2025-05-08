@@ -1,14 +1,10 @@
 package com.example.demo.task.domain;
 
-import java.util.UUID;
-
 import com.example.demo.user.domain.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -25,7 +21,7 @@ public class Task {
     private UUID taskId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
     private User user;
 
     @Column(name = "title", nullable = false, length = 100)

@@ -1,11 +1,10 @@
 package com.example.demo.task.service;
 
-import java.util.List;
-import java.util.UUID;
-
 import com.example.demo.task.dto.DeleteTaskResponseDto;
-import com.example.demo.task.dto.TaskResponseDto;
 import com.example.demo.task.dto.TaskDto;
+import com.example.demo.task.dto.TaskResponseDto;
+
+import java.util.UUID;
 
 public interface TaskService {
 

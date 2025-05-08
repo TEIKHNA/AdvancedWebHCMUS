@@ -2,12 +2,13 @@ package com.example.demo.user.controller;
 
 import com.example.demo.user.dto.*;
 import com.example.demo.user.service.AuthService;
+import com.example.demo.user.service.JwtService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
@@ -15,6 +16,8 @@ import java.util.List;
 public class AuthController {
 
     private final AuthService authService;
+
+    private final JwtService jwtService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto)  {
@@ -32,5 +35,13 @@ public class AuthController {
     public ResponseEntity<RefreshTokenResponseDto> refreshToken(@Valid @RequestBody RefreshTokenRequestDto refreshTokenRequestDto)  {
         RefreshTokenResponseDto responseDto = authService.refreshToken(refreshTokenRequestDto);
         return ResponseEntity.ok(responseDto);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<LogoutResponse> logout(@RequestHeader("Authorization") String authorizationHeader) {
+
+        UUID userId = jwtService.extractUserId(authorizationHeader);
+
+        return ResponseEntity.ok(authService.logout(userId));
     }
 }

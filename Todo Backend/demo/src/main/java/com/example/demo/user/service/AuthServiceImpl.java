@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
@@ -88,14 +87,38 @@ public class AuthServiceImpl implements AuthService {
                 throw new BadCredentialsException("user not found!");
             }
 
-            RefreshToken refreshToken = refreshTokenRepository.findByUser(user);
-            if (refreshToken == null) {
-                refreshToken = new RefreshToken();
-                refreshToken.setUser(user);
+            try {
+                RefreshToken refreshToken = refreshTokenRepository.findByUser_UserId(userId);
+                if (refreshToken == null) {
+                    refreshToken = new RefreshToken();
+                    refreshToken.setUser(user);
+                }
+                String uuid = UUID.randomUUID().toString();
+                refreshToken.setToken(uuid);
+                refreshToken.setValidUntil(Instant.now().plus(30, ChronoUnit.DAYS));
+                return refreshTokenRepository.save(refreshToken).getToken();
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                throw new RuntimeException(e);
             }
-            String uuid = UUID.randomUUID().toString();
-            refreshToken.setToken(uuid);
-            refreshToken.setValidUntil(Instant.now().plus(30, ChronoUnit.DAYS));
-            return refreshTokenRepository.save(refreshToken).getToken();
+    }
+
+    @Override
+    public LogoutResponse logout(UUID userId) {
+        User user = userRepository.findByUserId(userId);
+        if (user == null) {
+            throw new BadCredentialsException("User not found!");
+        }
+
+        RefreshToken refreshToken = refreshTokenRepository.findByUser_UserId(userId);
+        if (refreshToken != null) {
+            refreshTokenRepository.delete(refreshToken);
+
+            log.info("Refresh token for user {} has been deleted", userId);
+        } else {
+            log.warn("No refresh token found for user {}", userId);
+        }
+
+        return new LogoutResponse("User has been logged out!");
     }
 }

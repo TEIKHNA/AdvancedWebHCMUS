@@ -10,9 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
+  "@emotion/react": "^11.11.1",
+  "@emotion/styled": "^11.11.0",
+  "@mui/material": "^5.15.0",
+  "axios": "^1.6.8",
+  "formik": "^2.2.9",
+  "react": "^19.0.0",
+  "react-dom": "^19.0.0",
+  "react-router-dom": "^6.22.3",
+  "yup": "^1.2.0"
+},
   "devDependencies": {
     "@eslint/js": "^9.22.0",
     "@types/react": "^19.0.10",

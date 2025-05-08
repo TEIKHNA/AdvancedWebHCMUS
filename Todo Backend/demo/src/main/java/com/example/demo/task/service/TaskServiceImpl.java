@@ -1,29 +1,22 @@
 package com.example.demo.task.service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
+import com.example.demo.task.domain.Task;
 import com.example.demo.task.dto.DeleteTaskResponseDto;
+import com.example.demo.task.dto.TaskDto;
+import com.example.demo.task.dto.TaskResponseDto;
 import com.example.demo.task.mapper.TaskMapper;
+import com.example.demo.task.repository.TaskRepository;
 import com.example.demo.user.domain.User;
-import com.example.demo.user.dto.UserDto;
-import com.example.demo.user.mapper.UserMapper;
 import com.example.demo.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.task.domain.Task;
-import com.example.demo.task.dto.TaskResponseDto;
-import com.example.demo.task.dto.TaskDto;
-import com.example.demo.task.repository.TaskRepository;
-
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.UUID;
+
+@Slf4j
 @Service
 @AllArgsConstructor
 public class TaskServiceImpl implements TaskService {

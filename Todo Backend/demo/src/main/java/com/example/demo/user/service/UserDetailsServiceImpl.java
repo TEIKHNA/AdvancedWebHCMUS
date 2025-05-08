@@ -3,6 +3,7 @@ package com.example.demo.user.service;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.Objects;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
