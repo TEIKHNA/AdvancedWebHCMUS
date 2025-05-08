@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.task.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,12 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseDto<T> {
-    private T data;
+public class TaskResponseDto<T> {
+    private  TaskDto task;
     private String message;
-    private boolean success;
-
-    public boolean isSuccess() {
-        return success;
-    }
 }
