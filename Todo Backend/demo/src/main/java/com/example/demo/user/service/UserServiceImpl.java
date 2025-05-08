@@ -1,11 +1,21 @@
 package com.example.demo.user.service;
 
+import com.example.demo.task.dto.TaskDto;
+import com.example.demo.task.mapper.TaskMapper;
 import com.example.demo.user.domain.User;
+import com.example.demo.user.dto.UserDto;
+import com.example.demo.user.dto.UserResponseDto;
+import com.example.demo.user.mapper.UserMapper;
 import com.example.demo.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.UUID;
 
+@Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -23,4 +33,26 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.findByUserId(userId);
     }
+
+    @Override
+    public UserResponseDto getUserByUserId(UUID userId) {
+
+        User user = userRepository.findByUserId(userId);
+
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User " + userId + " not found");
+        }
+
+        UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
+
+        List<TaskDto> taskDtos = user.getTasks().stream()
+                .map(TaskMapper.INSTANCE::taskToTaskDto)
+                .toList();
+
+        userDto.setTasks(taskDtos);
+
+        return new UserResponseDto(userDto, "User " + userId + " has been found successfully!");
+    }
+
+
 }
