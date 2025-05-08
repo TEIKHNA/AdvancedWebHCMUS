@@ -17,6 +17,12 @@
 .task-list {
   list-style: none;
   text-align: left;
+  max-height: 400px; 
+  overflow-y: auto; 
+  border: 1px solid #ccc; 
+  padding: 10px; 
+  margin: 10px 0;
+  background-color: #f9f9f9; 
 }
 
 .task-item {
@@ -80,7 +86,7 @@
 }
 
 .filter-input {
-  width: 90%;
+  width: 92%;
   padding: 0.8rem;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -89,3 +95,13 @@
   color:#000;
 }
 
+
+.spinner {
+  margin: 2rem auto 0 auto;
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3; 
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}

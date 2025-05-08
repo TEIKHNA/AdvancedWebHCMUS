@@ -22,5 +22,5 @@ run in postman:
 - add task: POST http://localhost:8081/api/task/add
   body: {
   "title": "New Task",
-  "priority": 1
+  "completed": false
   }

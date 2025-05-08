@@ -1,0 +1,31 @@
+1 TaskContext.jsx
+    import React, { createContext, useReducer, useContext }
+    const initialState={
+        tasks,newTaskTitle,filterTitle,
+    };
+    const taskReducer=(state,action)=>{
+        switch(action.type){
+            case 'SET_TASKS':
+            case 'ADD_TASK':
+            case 'TOGGLE_TASK':
+            case 'SET_NEW_TASK_TITLE':
+            case 'SET_FILTER_TITLE':
+            default:
+                return state;
+        };
+    };
+    const taskContext = createContext();
+    export const TaskProvider = ({ children }) => { };
+    export const useTaskContext = () => { };
+2.main.jsx
+    <TaskProvider>
+2.App.jsx
+    const {state,dispatch} = useTaskContext();
+    const handleSubmit = (e) =>{}
+    const handleToggleTask = (taskId)
+    const handleSetNewTaskTitle = (e) =>{}
+    const handleSetFilterTitle = (e) => {}
+    const filteredTasks = state.tasks.filter((task) => {
+        return task.title.toLowerCase().includes(state.filterTitle.toLowerCase())
+    });
+    
