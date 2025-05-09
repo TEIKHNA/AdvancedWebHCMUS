@@ -58,8 +58,9 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public UUID extractUserId(String token) {
-        return getClaims(token).get("userId", UUID.class);
+    public UUID extractUserId(String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        return UUID.fromString(getClaims(token).get("userId", String.class));
     }
 
     private Key getSignInKey() {

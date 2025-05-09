@@ -14,5 +14,5 @@ public interface JwtService {
 
     String extractUsername(String token);
 
-    UUID extractUserId(String token);
+    UUID extractUserId(String authHeader);
 }

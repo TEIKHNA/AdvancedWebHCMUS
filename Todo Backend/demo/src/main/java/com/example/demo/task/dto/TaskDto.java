@@ -5,11 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskDto {
+    private UUID taskId;
     private String title;
     private Boolean isCompleted;
     private Integer ordinalNumber;

@@ -7,12 +7,14 @@ import com.example.demo.user.dto.UserDto;
 import com.example.demo.user.dto.UserResponseDto;
 import com.example.demo.user.mapper.UserMapper;
 import com.example.demo.user.repository.UserRepository;
+import com.example.demo.utils.TaskComparator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,11 +49,11 @@ public class UserServiceImpl implements UserService {
 
         UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
 
-        List<TaskDto> taskDtos = user.getTasks().stream()
-                .map(TaskMapper.INSTANCE::taskToTaskDto)
-                .toList();
+        List<TaskDto> tasks = userDto.getTasks();
 
-        userDto.setTasks(taskDtos);
+        Collections.sort(tasks, new TaskComparator());
+
+        userDto.setTasks(tasks);
 
         return new UserResponseDto(userDto, "User " + userId + " has been found successfully!");
     }

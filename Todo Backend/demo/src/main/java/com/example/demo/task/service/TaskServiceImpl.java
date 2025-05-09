@@ -47,7 +47,7 @@ public class TaskServiceImpl implements TaskService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task " + taskId + " has not been found!");
         }
 
-        if (task.getUser().getUserId() != userId) {
+        if (task.getUser().getUserId().compareTo(userId) != 0) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User is not allowed to update this task!");
         }
 
@@ -73,7 +73,7 @@ public class TaskServiceImpl implements TaskService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task " + taskId + " has not been found!");
         }
 
-        if (task.getUser().getUserId() != userId) {
+        if (task.getUser().getUserId().compareTo(userId) != 0) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User is not allowed to delete this task!");
         }
 
