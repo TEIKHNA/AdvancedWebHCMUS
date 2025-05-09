@@ -7,21 +7,6 @@ const initialState = {
   loading: true,
 };
 
-const fetchTasks = async (dispatch) => {
-  try {
-    dispatch({ type: "SET_LOADING", payload: true });
-
-    const tasks = await fetchTasksFromAPI();
-
-    // Delay fetch loading 
-    setTimeout(() => {
-      dispatch({ type: "SET_TASKS", payload: tasks });
-    }, 1000);
-  } catch (error) {
-    alert(error.message);
-    dispatch({ type: "SET_LOADING", payload: false });
-  }
-};
 
 const taskReducer = (state, action) => {
   switch (action.type) {
@@ -86,7 +71,21 @@ const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
-
+  const fetchTasks = async (dispatch) => {
+    try {
+      dispatch({ type: "SET_LOADING", payload: true });
+  
+      const tasks = await fetchTasksFromAPI();
+  
+      // Delay fetch loading 
+      setTimeout(() => {
+        dispatch({ type: "SET_TASKS", payload: tasks });
+      }, 1000);
+    } catch (error) {
+      alert(error.message);
+      dispatch({ type: "SET_LOADING", payload: false });
+    }
+  };
   useEffect(() => {
     fetchTasks(dispatch);
   }, []);
