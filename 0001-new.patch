@@ -1,0 +1,37 @@
+From 7f483e77baad255d537e969074a511a8048aa4a9 Mon Sep 17 00:00:00 2001
+From: TEIKHNA <anhkiet07012003@gmail.com>
+Date: Tue, 23 Dec 2025 10:20:03 +0700
+Subject: [PATCH] new
+
+---
+ test2.txt | 1 +
+ test8.txt | 1 +
+ test9.txt | 1 +
+ 3 files changed, 3 insertions(+)
+ create mode 100644 test8.txt
+ create mode 100644 test9.txt
+
+diff --git a/test2.txt b/test2.txt
+index 6ded003..6adeb3c 100644
+--- a/test2.txt
++++ b/test2.txt
+@@ -1 +1,2 @@
+ "test1" 
++hi 
+diff --git a/test8.txt b/test8.txt
+new file mode 100644
+index 0000000..3a7d165
+--- /dev/null
++++ b/test8.txt
+@@ -0,0 +1 @@
++demo 
+diff --git a/test9.txt b/test9.txt
+new file mode 100644
+index 0000000..09b828f
+--- /dev/null
++++ b/test9.txt
+@@ -0,0 +1 @@
++demo9 
+-- 
+2.46.0.windows.1
+
