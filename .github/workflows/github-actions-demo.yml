@@ -5,6 +5,7 @@ on:
   pull_request:
     branches:
     - main
+    - dev
   schedule:
   - cron: "35 15 * * *"
   workflow_dispatch:
