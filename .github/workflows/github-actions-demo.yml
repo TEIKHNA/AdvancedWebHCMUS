@@ -17,8 +17,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-      - name: Install Dependencies
-        run: npm install
+      - name: Check Node
+        run: node -v
+      - name: Check NPM
+        run: npm -v
         
   Test:
     name: Demo 2 - Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
@@ -51,5 +53,4 @@ jobs:
       - run: echo "${{ runner }}."
       - run: echo "${{ job }}."
       - run: echo hello > file.txt
-      - run: type file.txt
       - run: ls
