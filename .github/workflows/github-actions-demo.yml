@@ -6,40 +6,36 @@ on:
     branches:
     - main
   schedule:
-  - cron: "7 15 * * *"
+  - cron: "35 15 * * *"
   workflow_dispatch:
 jobs:
   My-Job:
-    name: deploy to staging
+    name: My Job Demo 01
     runs-on: ubuntu-22.04
     steps:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-      - name: Install Dependencies
-        run: npm install
+      - name: Check Node
+        run: node -v
+      - name: Check NPM
+        run: npm -v
         
   Test:
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    name: Demo 2 - Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: ['18.x', '20.x']
+        node_version: ['20.x']
         os: [ubuntu-latest, windows-latest]
     steps:
-    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node_version }}
       uses: actions/setup-node@v4
       with:
          node-version: ${{ matrix.node_version }}
-    # - name: npm install, build and test
-    #   run: |
-    #     npm install
-    - run: npm publish
-      if: github.event_name == 'push'
     
-  Explore-GitHub-Actions:
+  Explore-GitHub-Actions-03-Demo:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -53,3 +49,8 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "${{ github }}."
+      - run: echo "${{ runner }}."
+      - run: echo "${{ job }}."
+      - run: echo hello > file.txt
+      - run: ls
